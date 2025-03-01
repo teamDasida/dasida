@@ -30,11 +30,17 @@
 
 /* CSS 변수 설정 */
 :root {
-  --main-font-color: #363636;
+  /* --main-font-color: #363636;
   --main-font-color2: #636363;
   --main-gray-1: #eee;
-  --main-blue1: rgba(78, 137, 245);
-
+  --main-blue1: rgba(78, 137, 245); */
+  --Colors-Neutral-1000: #1A1F1F;
+  --bg: #FAF9F6;
+  --Colors-Primary-600: #567C53;
+  --black: #121212;
+  --Colors-blue-0: #DCF2FE;
+  --Colors-Neutral-700: #5A6868;
+  
 }
 
 /* CSS 초기화 */
@@ -146,11 +152,12 @@ body {
   width: 100%;
   line-height: 1;
   font-family: 'Pretendard', sans-serif;
-  color: var(--main-font-color);
+  color: var(--Colors-Neutral-1000);
   font-size: 14px;
-  background-color: rgb(243, 243, 244);
   word-break: keep-all;
   font-weight: 400;
+  background: var(--bg, #faf9f6);
+
 }
 
 /* 박스 모델 설정 및 워드 브레이크 */
@@ -257,5 +264,3 @@ iframe {
   position: fixed;
   left: -10000px;
 }
-
-
