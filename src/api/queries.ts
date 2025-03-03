@@ -1,7 +1,7 @@
 // queries.ts
 
 import { useQuery, UseQueryOptions, QueryKey } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios'; // 추가
+import { AxiosError } from 'axios'; // 추가
 import apiClient from './client';
 
 const fetchResource = async <T>(url: string): Promise<T> => {

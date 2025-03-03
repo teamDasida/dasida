@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { HeaderContent, LoginBtn, Nav, UserInfo } from './styles';
+import { HeaderContent, Nav, UserInfo } from './styles';
 
 export default function UserHeader() {
   const location = useLocation();
