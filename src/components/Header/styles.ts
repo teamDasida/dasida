@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const HeaderContent = styled.header`
+    z-index: 999;
     position: fixed;
     top: 0;
     left: 50%;
@@ -33,7 +34,7 @@ export const Nav = styled.nav`
             padding: 0 17px;
             font-size: 18px;
             height: 71px;
-            line-height:71px;
+            line-height: 71px;
             cursor: pointer;
             &:hover {
                 color: var(--Colors-Primary-600, #567c53);

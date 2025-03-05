@@ -1,27 +1,51 @@
-// pages/Editor.tsx (혹은 src/pages/Editor.tsx, 위치는 프로젝트 구조에 따라 조정)
+import React, { useState } from 'react';
 import UserHeader from '../../components/Header/UserHeader';
-import { MainContainer } from '../../style/GlobalStyle';
-
-// 방금 만든 커스텀 래퍼
+import { EditorContainer, MainContainer } from '../../style/GlobalStyle';
 import TuiEditor from '../../components/TuiEditor/TuiEditor';
+import {  TitleInput, SubmitButton } from './styles';
 
 export default function Editor() {
-  const handleEditorChange = () => {
-    console.log('Editor content changed!');
-  };
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    console.log(content);
 
-  return (
-    <>
-      <UserHeader />
-      <MainContainer>
-        <TuiEditor
-          initialValue="Hello Toast UI Editor!"
-          previewStyle="vertical"        // "vertical" | "tab"
-          initialEditType="markdown"     // "markdown" | "wysiwyg"
-          height="600px"
-          onChange={handleEditorChange}  // 내용 변경될 때 콜백
-        />
-      </MainContainer>
-    </>
-  );
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.target.value);
+    };
+
+    // TuiEditor에서 전달한 새로운 마크다운 내용을 상태에 저장
+    const handleEditorChange = (newContent: string) => {
+        setContent(newContent);
+        console.log('Editor content changed!', newContent);
+    };
+
+    // 전송 버튼 클릭 시 제목과 내용을 전송(혹은 콘솔 출력)
+    const handleSubmit = () => {
+        console.log('Submitting article:', { title, content });
+        // 여기에 서버로 데이터 전송하는 로직 추가 가능
+    };
+
+    return (
+        <>
+            <UserHeader />
+            <MainContainer>
+                <EditorContainer>
+                    <TitleInput
+                        type="text"
+                        value={title}
+                        onChange={handleTitleChange}
+                        placeholder="타이틀을 입력하세요"
+                    />
+                    <TuiEditor
+                        initialValue="Hello Toast UI Editor!"
+                        previewStyle="vertical" // "vertical" | "tab"
+                        initialEditType="markdown" // "markdown" | "wysiwyg"
+                        height="600px"
+                        onChange={handleEditorChange}
+                    />
+                    <SubmitButton onClick={handleSubmit}>전송</SubmitButton>
+                </EditorContainer>
+            </MainContainer>
+        </>
+    );
 }

@@ -2,18 +2,22 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createHashRouter, RouterProvider } from 'react-router-dom'; 
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'; 
 import App from './App';
 import Main from './pages/Main/Main';
 import TodayQuiz from './pages/TodayQuiz/TodayQuiz';
+import Editor from './pages/Editor/Editor';
+import EditorView from './pages/Viewer/EditorView';
 
-const router = createHashRouter([
+const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
       { index: true, element: <TodayQuiz /> },
       { path: '/main', element: <Main /> },
+      { path: '/editor', element: <Editor /> },
+      { path: '/editorView', element: <EditorView /> },
     ],
   },
 ]);

@@ -33,3 +33,10 @@ export const SubTitle = styled.h2`
     font-weight: 700;
     margin-bottom: 24px;
 `;
+export const EditorContainer = styled.div`
+    padding-top: 100px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`;

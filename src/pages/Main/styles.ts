@@ -6,7 +6,7 @@ export const IntroContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     padding-top: 71px;
-    height:100%;
+    height:100vh;
     box-sizing:border-box;
 
     & > div {
