@@ -40,7 +40,9 @@
   --black: #121212;
   --Colors-blue-0: #DCF2FE;
   --Colors-Neutral-700: #5A6868;
-  
+  --Colors-Neutral-200: #D0D5D5;
+  --Colors-Secondary-400: #90906E;
+  --Colors-Neutral-800: #445050;
 }
 
 /* CSS 초기화 */

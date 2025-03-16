@@ -8,8 +8,8 @@ export const MainContainer = styled.main`
     min-height: 100vh;
     width: 100%;
     max-width: 1200px;
-    box-sizing:border-box;
-    padding-bottom:30px;
+    box-sizing: border-box;
+    padding-bottom: 30px;
 `;
 
 export const ellipsisStyle = css`
@@ -32,11 +32,70 @@ export const SubTitle = styled.h2`
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 24px;
+    cursor: pointer;
 `;
 export const EditorContainer = styled.div`
-    padding-top: 100px;
+    padding-top: 122px;
     min-height: 100vh;
+`;
+
+export const ListTitle = styled.h2`
+    margin: 122px 0 24px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--Colors-Neutral-1000, #1a1f1f);
+
+    font-size: 20px;
+    font-weight: 700;
+
+    & > button {
+        border-radius: var(--Radius-2, 8px);
+        background: var(--Colors-Primary-200, #c4d7c2);
+        display: flex;
+        padding: 8px 12px 8px 16px;
+        align-items: center;
+        font-size: 16px;
+        color: #000;
+        & > svg {
+            display: block;
+            margin-left: 4px;
+        }
+    }
+`;
+
+export const MyList = styled.ul<{ $width?: string }>`
+    padding: 0 8px;
+    background-color: #fff;
+    border-radius: 8px;
+    width: ${(props) => (props.$width ? props.$width : '100%')};
+    transition: width 0.5s;
+    & > li {
+        padding: 20px 8px;
+        border-bottom: 1px solid var(--Colors-Neutral-200, #d0d5d5);
+        cursor: pointer;
+        &:last-child {
+            border: none;
+        }
+        p {
+            /* Label/L1/R */
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            ${ellipsisStyle};
+        }
+        span {
+            overflow: hidden;
+            color: var(--Colors-Neutral-700, #5a6868);
+            text-overflow: ellipsis;
+
+            /* Paragraph/P3/R */
+            font-size: 14px;
+            font-weight: 400;
+            display: block;
+        }
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 `;

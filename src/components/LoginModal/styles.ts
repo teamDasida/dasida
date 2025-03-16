@@ -12,6 +12,7 @@ export const fadeInUp = keyframes`
   }
 `;
 export const BackGround = styled.div`
+    z-index: 1000;
     background: rgba(0, 0, 0, 0.2);
     width: 100%;
     height: 100vh;
