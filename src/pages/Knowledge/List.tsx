@@ -11,7 +11,7 @@ export default function List() {
             <MainContainer>
                 <ListTitle>
                     나의 지식
-                    <button onClick={() => navigate('/editor')}>
+                    <button onClick={() => navigate('/knowledge/add')}>
                         지식 추가
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path
@@ -25,61 +25,61 @@ export default function List() {
                     </button>
                 </ListTitle>
                 <MyList>
-                    <li onClick={() => navigate('/editorView')}>
+                    <li onClick={() => navigate('/knowledge/1')}>
                         <p>고3 3월 모고29번</p>
                         <span>
                             Who don’t know what ancient Greek music sounded like, because there are no examples of{' '}
                         </span>
                     </li>
-                    <li onClick={() => navigate('/editorView')}>
+                    <li onClick={() => navigate('/knowledge/1')}>
                         <p>고3 3월 모고29번</p>
                         <span>
                             Who don’t know what ancient Greek music sounded like, because there are no examples of{' '}
                         </span>
                     </li>
-                    <li onClick={() => navigate('/editorView')}>
+                    <li onClick={() => navigate('/knowledge/1')}>
                         <p>고3 3월 모고29번</p>
                         <span>
                             Who don’t know what ancient Greek music sounded like, because there are no examples of{' '}
                         </span>
                     </li>
-                    <li onClick={() => navigate('/editorView')}>
+                    <li onClick={() => navigate('/knowledge/1')}>
                         <p>고3 3월 모고29번</p>
                         <span>
                             Who don’t know what ancient Greek music sounded like, because there are no examples of{' '}
                         </span>
                     </li>
-                    <li onClick={() => navigate('/editorView')}>
+                    <li onClick={() => navigate('/knowledge/1')}>
                         <p>고3 3월 모고29번</p>
                         <span>
                             Who don’t know what ancient Greek music sounded like, because there are no examples of{' '}
                         </span>
                     </li>
-                    <li onClick={() => navigate('/editorView')}>
+                    <li onClick={() => navigate('/knowledge/1')}>
                         <p>고3 3월 모고29번</p>
                         <span>
                             Who don’t know what ancient Greek music sounded like, because there are no examples of{' '}
                         </span>
                     </li>
-                    <li onClick={() => navigate('/editorView')}>
+                    <li onClick={() => navigate('/knowledge/1')}>
                         <p>고3 3월 모고29번</p>
                         <span>
                             Who don’t know what ancient Greek music sounded like, because there are no examples of{' '}
                         </span>
                     </li>
-                    <li onClick={() => navigate('/editorView')}>
+                    <li onClick={() => navigate('/knowledge/1')}>
                         <p>고3 3월 모고29번</p>
                         <span>
                             Who don’t know what ancient Greek music sounded like, because there are no examples of{' '}
                         </span>
                     </li>
-                    <li onClick={() => navigate('/editorView')}>
+                    <li onClick={() => navigate('/knowledge/1')}>
                         <p>고3 3월 모고29번</p>
                         <span>
                             Who don’t know what ancient Greek music sounded like, because there are no examples of{' '}
                         </span>
                     </li>
-                    <li onClick={() => navigate('/editorView')}>
+                    <li onClick={() => navigate('/knowledge/1')}>
                         <p>고3 3월 모고29번</p>
                         <span>
                             Who don’t know what ancient Greek music sounded like, because there are no examples of{' '}

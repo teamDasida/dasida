@@ -8,21 +8,21 @@ export default function UserHeader() {
         <HeaderContent>
             <Nav>
                 <h1>
-                    <img src="./img/logo.png" alt="로고" />
+                    <img src="/img/logo.png" alt="로고" />
                 </h1>
                 <ul>
                     <li onClick={() => navigate('/')} className={location.pathname === '/' ? 'on' : ''}>
                         홈
                     </li>
                     <li
-                        onClick={() => navigate('/list')}
-                        className={location.pathname === '/list' || location.pathname === '/editorView' ? 'on' : ''}
+                        onClick={() => navigate('/knowledge')}
+                        className={location.pathname.includes('/knowledge') ? 'on' : ''}
                     >
                         지식 보관소
                     </li>
                     <li
-                        onClick={() => navigate('/incorrectList')}
-                        className={location.pathname === '/incorrectList' ? 'on' : ''}
+                        onClick={() => navigate('/wrong-answers')}
+                        className={location.pathname === '/wrong-answers' ? 'on' : ''}
                     >
                         오답노트
                     </li>
@@ -30,10 +30,10 @@ export default function UserHeader() {
             </Nav>
             <UserInfo>
                 <button>
-                    <img src="./img/search.svg" alt="검색" />
+                    <img src="/img/search.svg" alt="검색" />
                 </button>
                 <button>
-                    <img src="./img/profile.png" alt="프로필" />
+                    <img src="/img/profile.png" alt="프로필" />
                 </button>
             </UserInfo>
         </HeaderContent>
