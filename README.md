@@ -1,50 +1,31 @@
-# React + TypeScript + Vite
+프로젝트 개요: 재미있는 복습을 위한 퀴즈
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+이 프로젝트는 에빙하우스 망각곡선을 기반으로, 학습한 내용을 재미있고 효율적으로 복습할 수 있도록 돕는 퀴즈 기반 애플리케이션입니다. 사용자가 새로운 학습 내용을 입력하면 자동으로 관련 퀴즈가 생성되고, 정해진 복습 주기를 통해 학습 효과를 극대화할 수 있습니다.
 
-Currently, two official plugins are available:
+주요 기능:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+지식 추가:
+사용자가 새 학습 내용을 입력하면, 그 내용에 맞는 퀴즈가 자동 생성되어 복습할 수 있도록 도와줍니다.
 
-## Expanding the ESLint configuration
+지식 리스트:
+저장된 학습 내용들이 목록으로 표시되며, 각 항목별로 “상세보기”, “수정하기”, “삭제하기” 기능을 제공합니다.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+지식 수정 및 상세보기:
+입력한 학습 내용을 언제든지 업데이트하거나 자세히 확인할 수 있습니다.
 
-- Configure the top-level `parserOptions` property like this:
+홈화면:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+로그인된 경우:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+기존 퀴즈가 있다면 “오늘의 퀴즈” 화면을 보여주고, 없으면 “지식 추가하기” 화면으로 이동합니다.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+비로그인 상태:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+“시작하러 가기” 버튼을 통해 로그인 화면으로 이동 후, 학습 내용 추가 화면으로 연결됩니다.
+
+오답 노트:
+틀린 문제들을 한눈에 확인하고, 상세 페이지에서 “해설 보기” 기능을 통해 부족한 부분을 보완할 수 있습니다.
+
+요약:
+"재미있게, 효율적으로, 저항감 없이 복습하자!"라는 슬로건 아래, 이 프로젝트는 사용자가 학습한 내용을 정해진 복습 주기(예: 1일, 3일, 7일, 30일 후)를 통해 효과적으로 장기 기억으로 전환할 수 있도록 설계되었습니다.
+
