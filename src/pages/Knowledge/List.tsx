@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import UserHeader from '../../components/Header/UserHeader';
+import UserHeader from '../../components/UserHeader/UserHeader';
 import { ListTitle, MainContainer, MyList } from '../../style/GlobalStyle';
 
 export default function List() {

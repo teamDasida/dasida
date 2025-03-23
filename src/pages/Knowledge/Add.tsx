@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import UserHeader from '../../components/Header/UserHeader';
+import UserHeader from '../../components/UserHeader/UserHeader';
 import { EditorContainer, MainContainer } from '../../style/GlobalStyle';
-import TuiEditor from '../../components/TuiEditor/TuiEditor';
+import TuiEditor from '../../components/Editor/TuiEditor';
 import {  TitleInput, SubmitButton } from './styles';
 
-export default function Editor() {
+export default function Add() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     console.log(content);

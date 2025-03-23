@@ -36,3 +36,4 @@ export const IntroContainer = styled.div`
         background-size: contain;
     }
 `;
+

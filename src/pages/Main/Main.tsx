@@ -1,13 +1,14 @@
+
+import HeaderContainer from '../../components/Header/HeaderContainer';
 import { MainContainer } from '../../style/GlobalStyle';
 import { IntroContainer } from './styles';
-import Header from '../../components/Header/Header';
 
 export default function Main() {
     // const { data, isLoading, isError, refetch } = useResource<boolean>(``, ['res']);
 
     return (
         <>
-            <Header />
+            <HeaderContainer />
             <MainContainer>
                 <IntroContainer>
                     <div>

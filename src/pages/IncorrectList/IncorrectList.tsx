@@ -1,4 +1,4 @@
-import UserHeader from '../../components/Header/UserHeader';
+import UserHeader from '../../components/UserHeader/UserHeader';
 import { ListTitle, MainContainer, MyList } from '../../style/GlobalStyle';
 import { IncorrectBox, LearningDetail } from './styles';
 import { useState } from 'react';

@@ -1,65 +1,69 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { center } from '../../style/GlobalStyle';
 
-export const HeaderContent = styled.header`
-    z-index: 999;
+
+
+export const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+export const BackGround = styled.div`
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100vh;
     position: fixed;
+    left: 0;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1200px;
-    width: 100%;
-    height: 71px;
-    background: var(--bg, #faf9f6);
+    ${center}
 `;
 
-export const Nav = styled.nav`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    height: 100%;
+export const LoginBox = styled.div`
+    position: relative;
+    width: 420px;
+    height: 182px;
+    border-radius: var(--Radius-4, 16px);
+    background: var(--white, #fff);
+    box-sizing: border-box;
+    padding: 24px;
+    /* Global Tokens/E3 */
+    box-shadow: 0px 16px 40px -8px rgba(95, 95, 88, 0.16);
+    animation: ${fadeInUp} 0.3s ease;
 
-    & > h1 {
-        margin-right: 56px;
-        width: 180px;
-    }
-    & > ul {
-        display: flex;
-        align-items: center;
-        height: 71px;
-
-        li {
-            padding: 0 17px;
-            font-size: 18px;
-            height: 71px;
-            line-height: 71px;
-            cursor: pointer;
-            &:hover {
-                color: var(--Colors-Primary-600, #567c53);
-                font-weight: 700;
-            }
-            &.on {
-                color: var(--Colors-Primary-600, #567c53);
-                font-weight: 700;
-            }
-        }
+    & > img {
+        padding-top: 32px;
+        margin-bottom: 16px;
     }
 `;
+export const KakaoBtn = styled.button`
+    border-radius: var(--Radius-1, 4px);
+    background: #f8e049;
+    width: 100%;
+    height: 52px;
+    ${center}
+    color: var(--black, #121212);
 
-export const LoginBtn = styled.button`
     /* Paragraph/P2/R */
     font-size: 16px;
-    font-weight: 400;
-    width: 150px;
-    display: block;
+    &::before {
+        content: '';
+        display: block;
+        margin-right: 8px;
+        width: 32px;
+        height: 32px;
+        background: 50% 50% url('./img/kakao.svg') no-repeat;
+        background-size: contain;
+    }
 `;
 
-export const UserInfo = styled.div`
-    display: flex;
-    align-items: center;
-    & > button {
-        margin-left: 24px;
-    }
+export const CloseBtn = styled.button`
+    position: absolute;
+    top: 24px;
+    right: 24px;
 `;
