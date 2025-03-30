@@ -2,12 +2,12 @@
 import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import { useEffect } from 'react';
-import Main from './pages/Main/Main';
+import Main from './pages/Main/MainContainer';
 import TodayQuiz from './pages/TodayQuiz/TodayQuiz';
-import List from './pages/Knowledge/List';
-import EditorView from './pages/Knowledge/Detail';
-import Editor from './pages/Knowledge/Add';
+import AddContainer from './pages/KnowledgeAdd/AddContainer';
 import IncorrectList from './pages/IncorrectList/IncorrectList';
+import List from './pages/KnowledgeList/List';
+import Detail from './pages/KnowledgeDetail/Detail';
 
 function App() {
     const location = useLocation();
@@ -21,8 +21,8 @@ function App() {
             <Route path="/main" element={<Main />} />
             <Route path="/" element={<TodayQuiz />} />
             <Route path="/knowledge" element={<List />} />
-            <Route path="/knowledge/:id" element={<EditorView />} />
-            <Route path="/knowledge/add" element={<Editor />} />
+            <Route path="/knowledge/:id" element={<Detail />} />
+            <Route path="/knowledge/add" element={<AddContainer />} />
             <Route path="/wrong-answers" element={<IncorrectList />} />
         </Routes>
     );

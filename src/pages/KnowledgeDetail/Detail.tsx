@@ -1,5 +1,5 @@
 import UserHeader from '../../components/UserHeader/UserHeader';
-import { EditorContainer, MainContainer } from '../../style/GlobalStyle';
+import { EditorContainer, Main } from '../../style/GlobalStyle';
 import { ViewerContainer, Title } from './styles';
 import TuiViewer from '../../components/Editor/TuiViewer';
 
@@ -13,14 +13,14 @@ export default function Detail() {
     return (
         <>
             <UserHeader />
-            <MainContainer>
+            <Main>
                 <EditorContainer>
                     <ViewerContainer>
                         <Title>{titleText}</Title>
                         <TuiViewer initialValue={markdownContent} />
                     </ViewerContainer>
                 </EditorContainer>
-            </MainContainer>
+            </Main>
         </>
     );
 }

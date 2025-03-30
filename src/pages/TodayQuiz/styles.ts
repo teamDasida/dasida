@@ -4,6 +4,9 @@ import { center } from '../../style/GlobalStyle';
 export const QuizContainer = styled.div`
     /* 화면 전체 중앙 정렬 */
     margin: 157px 0 60px;
+    @media (max-width: 768px) {
+        margin: 23px 0 40px;
+    }
 `;
 
 export const QuizList = styled.div`
@@ -66,12 +69,17 @@ export const HelpBtn = styled.button`
 export const Knowledge = styled.ul`
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     li {
-        background: var(--white, #FFF);
+        background: var(--white, #fff);
         padding: 24px;
         height: 150px;
         margin-right: 24px;
         width: calc(33.3333% - 16px);
+        margin-bottom: 16px;
+        &:nth-child(3n) {
+            margin-right: 0;
+        }
         p {
             color: var(--Colors-Neutral-1000, #1a1f1f);
             margin-bottom: 16px;
@@ -95,6 +103,30 @@ export const Knowledge = styled.ul`
         }
         &:last-child {
             margin-right: 0;
+        }
+        @media (max-width: 768px) {
+            width: 100%;
+            margin: 0;
+            padding: 0px 8px;
+            height: auto;
+            &:after {
+                content: '';
+                display: block;
+                width: 100%;
+                height: 1px;
+            }
+
+            & > div {
+                border-bottom: 1px solid var(--Colors-Neutral-200, #d0d5d5);
+
+                padding: 20px 8px;
+                & > p {
+                    margin-bottom: 4px;
+                }
+                & > span {
+                    height: auto;
+                }
+            }
         }
     }
 `;

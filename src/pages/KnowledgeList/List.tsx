@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import UserHeader from '../../components/UserHeader/UserHeader';
-import { ListTitle, MainContainer, MyList } from '../../style/GlobalStyle';
+import { ListTitle, Main, MyList } from '../../style/GlobalStyle';
 
 export default function List() {
     const navigate = useNavigate();
@@ -8,7 +8,7 @@ export default function List() {
     return (
         <>
             <UserHeader />
-            <MainContainer>
+            <Main>
                 <ListTitle>
                     나의 지식
                     <button onClick={() => navigate('/knowledge/add')}>
@@ -17,9 +17,9 @@ export default function List() {
                             <path
                                 d="M5 12H19M12 5V19"
                                 stroke="black"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                             />
                         </svg>
                     </button>
@@ -86,7 +86,7 @@ export default function List() {
                         </span>
                     </li>
                 </MyList>
-            </MainContainer>
+            </Main>
         </>
     );
 }

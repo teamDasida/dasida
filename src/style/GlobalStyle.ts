@@ -13,6 +13,7 @@ export const HeaderContent = styled.header`
     width: 100%;
     height: 71px;
     background: var(--bg, #faf9f6);
+    min-width: 1280px;
 `;
 
 export const Nav = styled.nav`
@@ -64,8 +65,7 @@ export const UserInfo = styled.div`
     }
 `;
 
-
-export const MainContainer = styled.main`
+export const Main = styled.main`
     /* 화면 전체 중앙 정렬 */
     margin: 0 auto;
 
@@ -75,8 +75,17 @@ export const MainContainer = styled.main`
     max-width: 1200px;
     box-sizing: border-box;
     padding-bottom: 30px;
+    @media (max-width: 768px) {
+        max-width: 100%;
+        padding: 0 20px 110px; /* 예시로 좌우 여백 추가 */
+    }
 `;
-
+export const MbMain = styled.main`
+    position: relative;
+    padding: 0 20px;
+    min-height: 100vh;
+    background: var(--bg, #faf9f6);
+`;
 export const ellipsisStyle = css`
     white-space: nowrap;
     overflow: hidden;

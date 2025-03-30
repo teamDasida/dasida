@@ -1,5 +1,5 @@
 import UserHeader from '../../components/UserHeader/UserHeader';
-import { ListTitle, MainContainer, MyList } from '../../style/GlobalStyle';
+import { ListTitle, Main, MyList } from '../../style/GlobalStyle';
 import { IncorrectBox, LearningDetail } from './styles';
 import { useState } from 'react';
 
@@ -9,7 +9,7 @@ export default function IncorrectList() {
     return (
         <>
             <UserHeader />
-            <MainContainer>
+            <Main>
                 <ListTitle>오답노트</ListTitle>
                 <IncorrectBox>
                     <MyList $width={detail ? '384px' : '100%'}>
@@ -63,7 +63,7 @@ export default function IncorrectList() {
                         </div>
                     )}
                 </IncorrectBox>
-            </MainContainer>
+            </Main>
         </>
     );
 }
