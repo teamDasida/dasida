@@ -1,4 +1,3 @@
-import UserHeader from '../../components/UserHeader/UserHeader';
 import { EditorContainer, Main } from '../../style/GlobalStyle';
 import { ViewerContainer, Title } from './styles';
 import TuiViewer from '../../components/Editor/TuiViewer';
@@ -12,7 +11,6 @@ export default function Detail() {
 
     return (
         <>
-            <UserHeader />
             <Main>
                 <EditorContainer>
                     <ViewerContainer>

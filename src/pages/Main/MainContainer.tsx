@@ -8,7 +8,7 @@ export default function MainContainer() {
     const openModal = () => setModal(true);
     const closeModal = () => setModal(false);
 
-    const isMobile = useIsMobile(); 
+    const isMobile = useIsMobile();
 
     return (
         <>

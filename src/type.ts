@@ -2,6 +2,8 @@ export interface Quiz {
     dayType: number;
     quizId: number;
     question: string;
+    viewHint?:boolean;
+    result?: 'unanswered' | 'correct' | 'incorrect';
 }
 
 export interface Knowledge {

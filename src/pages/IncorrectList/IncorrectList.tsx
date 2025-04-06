@@ -1,4 +1,3 @@
-import UserHeader from '../../components/UserHeader/UserHeader';
 import { ListTitle, Main, MyList } from '../../style/GlobalStyle';
 import { IncorrectBox, LearningDetail } from './styles';
 import { useState } from 'react';
@@ -8,7 +7,6 @@ export default function IncorrectList() {
 
     return (
         <>
-            <UserHeader />
             <Main>
                 <ListTitle>오답노트</ListTitle>
                 <IncorrectBox>

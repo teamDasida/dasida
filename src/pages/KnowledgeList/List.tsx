@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import UserHeader from '../../components/UserHeader/UserHeader';
 import { ListTitle, Main, MyList } from '../../style/GlobalStyle';
 
 export default function List() {
@@ -7,7 +6,6 @@ export default function List() {
 
     return (
         <>
-            <UserHeader />
             <Main>
                 <ListTitle>
                     나의 지식

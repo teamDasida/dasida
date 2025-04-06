@@ -75,6 +75,7 @@ export const Main = styled.main`
     max-width: 1200px;
     box-sizing: border-box;
     padding-bottom: 30px;
+    overflow:hidden;
     @media (max-width: 768px) {
         max-width: 100%;
         padding: 0 20px 110px; /* 예시로 좌우 여백 추가 */

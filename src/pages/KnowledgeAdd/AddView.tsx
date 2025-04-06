@@ -1,4 +1,3 @@
-import UserHeader from '../../components/UserHeader/UserHeader';
 import { EditorContainer, Main } from '../../style/GlobalStyle';
 import TuiEditor from '../../components/Editor/TuiEditor';
 import { TitleInput, SubmitButton } from './styles';
@@ -19,7 +18,6 @@ export default function AddView({
 }: AddViewProps) {
   return (
     <>
-      <UserHeader />
       <Main>
         <EditorContainer>
           <TitleInput
