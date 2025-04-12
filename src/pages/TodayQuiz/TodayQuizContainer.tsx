@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import TodayQuizView from './TodayQuizView';
+import TodayQuizView from './components/TodayQuizView';
 import useMainQuizStore from '../../store/useMainQuizStore';
 import { useMutation } from '@tanstack/react-query';
 import { postQuiz, QuizPostRequest, QuizPostResponse } from '../../api/postQuiz';
@@ -10,7 +10,7 @@ export default function TodayQuizContainer() {
 
   // '나의 지식' 클릭 시 '/list'로 이동하는 핸들러
   const handleKnowledgeClick = () => {
-    navigate('/list');
+    navigate('/knowledge');
   };
 
   // postQuiz API를 호출하기 위한 React Query mutation
@@ -42,6 +42,7 @@ export default function TodayQuizContainer() {
   const handleSubmitAnswer = (quizId: number, answer: string, dayType: number) => {
     submitQuiz({ quizId, answer, dayType });
   };
+
 
   return (
     <>

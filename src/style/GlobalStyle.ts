@@ -65,7 +65,7 @@ export const UserInfo = styled.div`
     }
 `;
 
-export const Main = styled.main`
+export const Main = styled.main<{ $paddingTop?: string }>`
     /* 화면 전체 중앙 정렬 */
     margin: 0 auto;
 
@@ -75,10 +75,11 @@ export const Main = styled.main`
     max-width: 1200px;
     box-sizing: border-box;
     padding-bottom: 30px;
-    overflow:hidden;
+    overflow: hidden;
     @media (max-width: 768px) {
         max-width: 100%;
         padding: 0 20px 110px; /* 예시로 좌우 여백 추가 */
+        padding-top: ${(props) => (props.$paddingTop ? props.$paddingTop : 0)};
     }
 `;
 export const MbMain = styled.main`
@@ -112,9 +113,12 @@ export const SubTitle = styled.h2`
 export const EditorContainer = styled.div`
     padding-top: 122px;
     min-height: 100vh;
+    @media (max-width: 768px) {
+        padding-top: 20px;
+    }
 `;
 
-export const ListTitle = styled.h2`
+export const ListTitle = styled.h2<{ $hideTitle?: boolean }>`
     margin: 122px 0 24px;
     display: flex;
     align-items: center;
@@ -123,7 +127,8 @@ export const ListTitle = styled.h2`
 
     font-size: 20px;
     font-weight: 700;
-
+    transform: ${(props) => (props.$hideTitle ? ' translateY(-43px)' : 'translateY(0)')};
+    transition: transform 0.5s;
     & > button {
         border-radius: var(--Radius-2, 8px);
         background: var(--Colors-Primary-200, #c4d7c2);
@@ -135,6 +140,53 @@ export const ListTitle = styled.h2`
         & > svg {
             display: block;
             margin-left: 4px;
+        }
+    }
+    & > div.searchInput {
+        border-radius: var(--Radius-2, 8px);
+        background: var(--white, #fff);
+        padding: 0px 8px;
+        box-shadow: 0px 2px 4px 0px rgba(26, 31, 31, 0.04);
+        display: none;
+        width: 100%;
+        height: 32px;
+        box-sizing: border-box;
+        align-items: center;
+        margin-top: 8px;
+        &::before {
+            display: block;
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: 50% 50% url('/img/search_m.svg') no-repeat;
+            background-size: contain;
+            margin-right: 6px;
+        }
+        input {
+            flex: 1;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            &::placeholder {
+                color: var(--Colors-Neutral-600, #6f8080);
+            }
+        }
+    }
+    @media (max-width: 768px) {
+        position: fixed;
+        left: 0;
+        top: 0;
+        padding: 23px 20px 18px;
+        background-color: #fff;
+        margin: 0;
+        display: block;
+        width: 100%;
+        & > div.searchInput {
+            display: flex;
+        }
+
+        & > button {
+            display: none;
         }
     }
 `;

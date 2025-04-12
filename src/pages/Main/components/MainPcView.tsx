@@ -15,7 +15,7 @@ export default function MainPcView({ modal, openModal, closeModal }: MainPcViewP
       <HeaderContent>
         <Nav>
           <h1>
-            <img src="./img/logo.png" alt="Logo" />
+            <img src="./img/logo.svg" alt="Logo" />
           </h1>
         </Nav>
         <LoginBtn onClick={openModal}>로그인 또는 가입하기</LoginBtn>

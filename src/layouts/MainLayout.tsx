@@ -8,6 +8,8 @@ import { DataStructure } from '../type';
 import { fetchHomeData } from '../api/todayQuiz';
 import Loading from '../components/Loading/Loading';
 import useMainQuizStore from '../store/useMainQuizStore';
+import AddBtn from '../components/AddBtn/AddBtn';
+import BottomBtns from '../components/BottomBtns/BottomBtns';
 
 function MainLayout() {
     const location = useLocation();
@@ -53,11 +55,13 @@ function MainLayout() {
     }, [isError, location.pathname, navigate]);
 
     // 네비게이트 이후 '/main' 경로에서는 로딩 애니메이션 없이 바로 Outlet 렌더링
-    if (location.pathname === '/main') {
+    if (location.pathname !== '/main') {
         return (
             <>
                 {!isMobile && <UserHeader />}
                 <Outlet />
+                {location.pathname !== '/main' && <AddBtn onConfirm={() => navigate('/knowledge/add')} />}
+                {isMobile && location.pathname !== '/main' && <BottomBtns />}
             </>
         );
     }
@@ -67,8 +71,10 @@ function MainLayout() {
 
     return (
         <>
-            {!isMobile && location.pathname !== '/' && <UserHeader />}
+            {!isMobile && location.pathname !== '/main' && <UserHeader />}
             <Outlet />
+            {location.pathname !== '/main' && <AddBtn onConfirm={() => navigate('/knowledge/add')} />}
+            {isMobile && location.pathname !== '/main' && <BottomBtns />}
         </>
     );
 }

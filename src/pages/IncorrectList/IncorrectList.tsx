@@ -1,14 +1,24 @@
+import useHideTitleOnScroll from '../../hooks/useHideTitleOnScroll';
+import useIsMobile from '../../hooks/useIsMobile';
 import { ListTitle, Main, MyList } from '../../style/GlobalStyle';
 import { IncorrectBox, LearningDetail } from './styles';
 import { useState } from 'react';
 
 export default function IncorrectList() {
     const [detail, setDetail] = useState(false);
+    const isMobile = useIsMobile();
+    const hideTitle = useHideTitleOnScroll();
 
     return (
         <>
-            <Main>
-                <ListTitle>오답노트</ListTitle>
+            <Main $paddingTop={isMobile ? `101px` : '0'}>
+                <ListTitle $hideTitle={hideTitle}>
+                    오답노트
+                    <div className="searchInput">
+                        <input type="text" placeholder="지식 검색" />
+                    </div>
+                </ListTitle>
+                
                 <IncorrectBox>
                     <MyList $width={detail ? '384px' : '100%'}>
                         <li onClick={() => setDetail(true)}>
@@ -51,11 +61,26 @@ export default function IncorrectList() {
                             <LearningDetail>
                                 <p>학습 내역</p>
                                 <ul>
-                                    <li><img src="./img/circle-alert.svg" alt="" />just</li>
-                                    <li><img src="./img/circle-alert.svg" alt="" />just</li>
-                                    <li><img src="./img/circle-alert.svg" alt="" />just</li>
-                                    <li><img src="./img/circle-alert.svg" alt="" />just</li>
-                                    <li><img src="./img/circle-alert.svg" alt="" />just</li>
+                                    <li>
+                                        <img src="./img/circle-alert.svg" alt="" />
+                                        just
+                                    </li>
+                                    <li>
+                                        <img src="./img/circle-alert.svg" alt="" />
+                                        just
+                                    </li>
+                                    <li>
+                                        <img src="./img/circle-alert.svg" alt="" />
+                                        just
+                                    </li>
+                                    <li>
+                                        <img src="./img/circle-alert.svg" alt="" />
+                                        just
+                                    </li>
+                                    <li>
+                                        <img src="./img/circle-alert.svg" alt="" />
+                                        just
+                                    </li>
                                 </ul>
                             </LearningDetail>
                         </div>

@@ -1,13 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { ListTitle, Main, MyList } from '../../style/GlobalStyle';
+import useHideTitleOnScroll from '../../hooks/useHideTitleOnScroll';
+import useIsMobile from '../../hooks/useIsMobile';
 
 export default function List() {
     const navigate = useNavigate();
+    const hideTitle = useHideTitleOnScroll();
+    const isMobile = useIsMobile();
 
     return (
         <>
-            <Main>
-                <ListTitle>
+            <Main $paddingTop={isMobile ? `101px` : '0'}>
+                <ListTitle $hideTitle={hideTitle}>
                     나의 지식
                     <button onClick={() => navigate('/knowledge/add')}>
                         지식 추가
@@ -21,6 +25,9 @@ export default function List() {
                             />
                         </svg>
                     </button>
+                    <div className="searchInput">
+                        <input type="text" placeholder="지식 검색" />
+                    </div>
                 </ListTitle>
                 <MyList>
                     <li onClick={() => navigate('/knowledge/1')}>

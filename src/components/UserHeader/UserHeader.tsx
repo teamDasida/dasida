@@ -8,7 +8,7 @@ export default function UserHeader() {
         <HeaderContent>
             <Nav>
                 <h1>
-                    <img src="/img/logo.png" alt="로고" />
+                    <img src="/img/logo.svg" alt="로고" />
                 </h1>
                 <ul>
                     <li onClick={() => navigate('/')} className={location.pathname === '/' ? 'on' : ''}>

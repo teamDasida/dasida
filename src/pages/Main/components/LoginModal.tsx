@@ -26,7 +26,7 @@ export default function LoginModal({ onClose }: LoginModalProps) {
         <CloseBtn onClick={onClose}>
           <img src="/img/close.svg" alt="닫기" />
         </CloseBtn>
-        <img src="/img/logo.png" alt="Logo" />
+        <img src="/img/logo.svg" alt="Logo" />
         <KakaoBtn onClick={handleClickLogin}>카카오 계정으로 시작하기</KakaoBtn>
       </LoginBox>
     </BackGround>
