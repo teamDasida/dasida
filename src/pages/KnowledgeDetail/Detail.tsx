@@ -1,6 +1,6 @@
 import { EditorContainer, Main } from '../../style/GlobalStyle';
 import { ViewerContainer, Title } from './styles';
-import TuiViewer from '../../components/Editor/TuiViewer';
+import TuiViewer from './components/TuiViewer';
 
 export default function Detail() {
     // 예시 데이터: 실제로는 서버나 전역 상태에서 데이터를 받아올 수 있습니다.

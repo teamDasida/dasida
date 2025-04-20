@@ -31,7 +31,10 @@ function MainLayout() {
         queryKey: ['home'],
         queryFn: fetchHomeData,
     });
-
+    useEffect(() => {
+        window.scrollTo(0, 0);
+  
+    }, [isError, location.pathname]);
     // 데이터가 불러와지면 quizzes에 viewHint와 result 값을 추가하여 zustand 스토어에 저장
     useEffect(() => {
         if (data) {
@@ -47,28 +50,13 @@ function MainLayout() {
         }
     }, [data, setMainQuiz]);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        if (isError) {
-            navigate('/main');
-        }
-    }, [isError, location.pathname, navigate]);
-
-    // 네비게이트 이후 '/main' 경로에서는 로딩 애니메이션 없이 바로 Outlet 렌더링
-    if (location.pathname !== '/main') {
-        return (
-            <>
-                {!isMobile && <UserHeader />}
-                <Outlet />
-                {location.pathname !== '/main' && <AddBtn onConfirm={() => navigate('/knowledge/add')} />}
-                {isMobile && location.pathname !== '/main' && <BottomBtns />}
-            </>
-        );
-    }
-
     // 데이터 로딩 중이거나 최소 1.5초가 지나지 않은 경우 Loading 컴포넌트 표시
     if (isLoading || !minTimePassed) return <Loading />;
 
+
+    if (isError) {
+        navigate('/main');
+    }
     return (
         <>
             {!isMobile && location.pathname !== '/main' && <UserHeader />}

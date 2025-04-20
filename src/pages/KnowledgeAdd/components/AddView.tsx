@@ -1,6 +1,6 @@
-import { EditorContainer, Main } from '../../style/GlobalStyle';
-import TuiEditor from '../../components/Editor/TuiEditor';
-import { TitleInput, SubmitButton } from './styles';
+import { EditorContainer, Main } from '../../../style/GlobalStyle';
+import TuiEditor from './TuiEditor';
+import { TitleInput, SubmitButton } from '../styles';
 
 // AddView에서 사용할 props의 타입 정의
 export interface AddViewProps {
@@ -30,7 +30,7 @@ export default function AddView({
             initialValue="Hello Toast UI Editor!"
             previewStyle="vertical" // "vertical" | "tab"
             initialEditType="markdown" // "markdown" | "wysiwyg"
-            height="600px"
+            height="400px"
             onChange={handleEditorChange}
           />
           <SubmitButton onClick={handleSubmit}>전송</SubmitButton>
