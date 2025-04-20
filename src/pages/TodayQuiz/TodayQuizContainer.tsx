@@ -14,11 +14,7 @@ export default function TodayQuizContainer() {
   };
 
   // postQuiz API를 호출하기 위한 React Query mutation
-  const { mutate: submitQuiz } = useMutation<
-    QuizPostResponse,
-    Error,
-    QuizPostRequest
-  >({
+  const { mutate: submitQuiz } = useMutation({
     mutationFn: postQuiz,
     onSuccess: (data, variables) => {
       console.log('퀴즈 제출 성공:', data);

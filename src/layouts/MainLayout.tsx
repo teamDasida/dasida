@@ -5,7 +5,7 @@ import UserHeader from '../components/UserHeader/UserHeader';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { DataStructure } from '../type';
-import { fetchHomeData } from '../api/todayQuiz';
+import { fetchHomeData, fetchWrongAnswerNotes } from '../api/quizApi';
 import Loading from '../components/Loading/Loading';
 import useMainQuizStore from '../store/useMainQuizStore';
 import AddBtn from '../components/AddBtn/AddBtn';
@@ -27,20 +27,24 @@ function MainLayout() {
     }, []);
 
     // React Query를 통한 데이터 불러오기
-    const { data, isLoading, isError } = useQuery<DataStructure, Error>({
+    const { data: homeData, isLoading: homeLoading, isError: homeError } = useQuery({
         queryKey: ['home'],
         queryFn: fetchHomeData,
+    });
+    const { data: wrongNotes, isLoading: wrongLoading, isError: wrongError } = useQuery({
+        queryKey: ['wrongAnswerNotes'],
+        queryFn: fetchWrongAnswerNotes,
     });
     useEffect(() => {
         window.scrollTo(0, 0);
   
-    }, [isError, location.pathname]);
+    }, [homeError, location.pathname]);
     // 데이터가 불러와지면 quizzes에 viewHint와 result 값을 추가하여 zustand 스토어에 저장
     useEffect(() => {
-        if (data) {
+        if (homeData) {
             const modifiedData: DataStructure = {
-                ...data,
-                quizzes: data.quizzes.map((quiz) => ({
+                ...homeData,
+                quizzes: homeData.quizzes.map((quiz) => ({
                     ...quiz,
                     viewHint: false, // 힌트 보기 상태 (기본값 false)
                     result: 'unanswered', // 정답 여부 상태 (기본값 unanswered)
@@ -48,13 +52,18 @@ function MainLayout() {
             };
             setMainQuiz(modifiedData);
         }
-    }, [data, setMainQuiz]);
+    }, [homeData, setMainQuiz]);
+    useEffect(() => {
+        if (wrongNotes) {
+            console.log('Wrong answer notes:', wrongNotes);
+        }
+    }, [wrongNotes]);
 
     // 데이터 로딩 중이거나 최소 1.5초가 지나지 않은 경우 Loading 컴포넌트 표시
-    if (isLoading || !minTimePassed) return <Loading />;
+    if (homeLoading || wrongLoading || !minTimePassed) return <Loading />;
 
 
-    if (isError) {
+    if (homeError || wrongError) {
         navigate('/main');
     }
     return (
