@@ -35,6 +35,8 @@ function MainLayout() {
         queryKey: ['wrongAnswerNotes'],
         queryFn: fetchWrongAnswerNotes,
     });
+    console.log(homeData);
+    
     useEffect(() => {
         window.scrollTo(0, 0);
   

@@ -268,5 +268,5 @@ iframe {
 }
 
 .swiper {
-  overflow: visible;
+  overflow: visible !important;
 }

@@ -63,7 +63,7 @@ export const HintContainer = styled.div`
     }
 `;
 
-export const Passage = styled.div`
+export const Passage = styled.div<{$length:number}>`
     /* Paragraph/P2/R */
     font-size: 16px;
     font-weight: 400;
@@ -71,7 +71,7 @@ export const Passage = styled.div`
     & > input {
         border-radius: var(--Radius-1, 4px);
         background: var(--Colors-blue-0, #dcf2fe);
-        width: 50px;
+        width: ${props=>props.$length ? `calc(${props.$length} * 25px)` : '50px'};
         height: 24px;
         box-sizing: border-box;
         line-height: 24px;

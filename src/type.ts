@@ -4,6 +4,8 @@ export interface Quiz {
     question: string;
     viewHint?:boolean;
     result?: 'unanswered' | 'correct' | 'incorrect';
+    answerLength:number;
+    hint:string;
 }
 
 export interface Knowledge {

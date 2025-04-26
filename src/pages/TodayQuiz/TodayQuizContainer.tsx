@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import TodayQuizView from './components/TodayQuizView';
 import useMainQuizStore from '../../store/useMainQuizStore';
 import { useMutation } from '@tanstack/react-query';
-import { postQuiz, QuizPostRequest, QuizPostResponse } from '../../api/postQuiz';
+import { postQuiz} from '../../api/postQuiz';
 
 export default function TodayQuizContainer() {
   const navigate = useNavigate();
