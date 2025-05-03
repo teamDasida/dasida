@@ -99,6 +99,9 @@ export const KakaoBtn = styled.button<{ $mb?: boolean }>`
     ${({ $mb }) =>
         $mb &&
         css`
+            width: 90%;
+            left:50%;
+            transform:translateX(-50%);
             position: absolute;
             bottom: 80px;
         `}
