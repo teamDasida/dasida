@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { center } from '../../style/GlobalStyle';
+import { center, ellipsisStyle } from '../../style/GlobalStyle';
 
 export const QuizContainer = styled.div`
     /* 화면 전체 중앙 정렬 */
@@ -23,45 +23,7 @@ export const QuizList = styled.div<{ $answer?: 'unanswered' | 'correct' | 'incor
     box-shadow: 0px 2px 4px 0px rgba(26, 31, 31, 0.04);
 `;
 
-export const HintContainer = styled.div`
-    position: absolute;
-    z-index: 2;
-    top: calc(100% + 34px);
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 16px;
-    width: 100%;
-    border-radius: var(--Radius-3, 12px);
-    border: 1px solid var(--Colors-Primary-300, #a6c2a4);
-    background: var(--Colors-Secondary-100, #f5f5e6);
-    box-shadow: 0px 16px 32px -12px rgba(95, 95, 88, 0.05);
-    & > p {
-        display: flex;
-        align-items: center;
-        color: var(--Colors-Primary-700, #476644);
-        margin-bottom: 8px;
-        font-size: 16px;
-        font-weight: 700;
-        &::before {
-            content: '';
-            display: block;
-            width: 16.2px;
-            height: 16.2px;
-            background: 50% 50% url('/img/lightbulb.svg') no-repeat;
-            background-size: contain;
-            margin-right: 4px;
-        }
-        & > span {
-            display: block;
-            color: var(--Colors-Neutral-1000, #1a1f1f);
 
-            /* Paragraph/P3/R */
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 21px; /* 21px */
-        }
-    }
-`;
 
 export const Passage = styled.div<{$length:number}>`
     /* Paragraph/P2/R */
@@ -128,6 +90,8 @@ export const Knowledge = styled.ul`
             margin-bottom: 16px;
             font-size: 16px;
             font-weight: 500;
+            ${ellipsisStyle};
+            width: 100%;
         }
 
         span {

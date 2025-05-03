@@ -15,7 +15,7 @@ function MainLayout() {
     const location = useLocation();
     const isMobile = useIsMobile();
     const navigate = useNavigate();
-    const { setMainQuiz } = useMainQuizStore();
+    const { setMainQuiz, setWrongAnswerNotes } = useMainQuizStore();
 
     // 최소 로딩 시간을 위한 상태 (1.5초 이상 로딩 애니메이션을 보여줌)
     const [minTimePassed, setMinTimePassed] = useState(false);
@@ -35,12 +35,11 @@ function MainLayout() {
         queryKey: ['wrongAnswerNotes'],
         queryFn: fetchWrongAnswerNotes,
     });
-    console.log(homeData);
-    
+
     useEffect(() => {
         window.scrollTo(0, 0);
-  
-    }, [homeError, location.pathname]);
+    }, [location.pathname]);
+
     // 데이터가 불러와지면 quizzes에 viewHint와 result 값을 추가하여 zustand 스토어에 저장
     useEffect(() => {
         if (homeData) {
@@ -55,19 +54,21 @@ function MainLayout() {
             setMainQuiz(modifiedData);
         }
     }, [homeData, setMainQuiz]);
+
+    // 잘못된 답안 노트를 store에 저장
     useEffect(() => {
         if (wrongNotes) {
-            console.log('Wrong answer notes:', wrongNotes);
+            setWrongAnswerNotes(wrongNotes);
         }
-    }, [wrongNotes]);
+    }, [wrongNotes, setWrongAnswerNotes]);
 
     // 데이터 로딩 중이거나 최소 1.5초가 지나지 않은 경우 Loading 컴포넌트 표시
     if (homeLoading || wrongLoading || !minTimePassed) return <Loading />;
 
-
     if (homeError || wrongError) {
         navigate('/main');
     }
+
     return (
         <>
             {!isMobile && location.pathname !== '/main' && <UserHeader />}

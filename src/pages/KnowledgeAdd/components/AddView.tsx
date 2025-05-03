@@ -20,12 +20,12 @@ export default function AddView({
     <>
       <Main>
         <EditorContainer>
-          <TitleInput
-            type="text"
-            value={title}
+        <TitleInput
+          type="text"
+          value={title}
             onChange={e=>handleTitleChange(e.target.value)}
             placeholder="타이틀을 입력하세요"
-          />
+        />
           <TuiEditor
             initialValue="Hello Toast UI Editor!"
             previewStyle="vertical" // "vertical" | "tab"

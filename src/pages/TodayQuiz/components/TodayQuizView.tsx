@@ -1,7 +1,7 @@
 // src/components/TodayQuiz/TodayQuizView.tsx
 import { useState, useEffect } from 'react';
-import { Main, SubTitle } from '../../../style/GlobalStyle';
-import { HelpBtn, HintContainer, Knowledge, Passage, QuizContainer, QuizList } from '../styles';
+import { Main, SubTitle ,HintContainer} from '../../../style/GlobalStyle';
+import { HelpBtn, Knowledge, Passage, QuizContainer, QuizList } from '../styles';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { DataStructure } from '../../../type';

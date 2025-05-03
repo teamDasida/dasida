@@ -226,3 +226,53 @@ export const MyList = styled.ul<{ $width?: string }>`
         }
     }
 `;
+
+
+interface HintContainerProps {
+  /** 중앙 정렬 여부 (transient prop) */
+  $center?: boolean;
+}
+
+export const HintContainer = styled.div<HintContainerProps>`
+  position: absolute;
+  z-index: 5;
+
+  /* $center 값에 따라 위치‧크기 조정 */
+  left: ${({ $center }) => ($center ? '50%' : '0')};
+  top: ${({ $center }) => ($center ? '100px;' : 'calc(100% + 34px)')};
+  transform: ${({ $center }) => ($center ? 'translateX(-50%)' : 'none')};
+  width: ${({ $center }) => ($center ? 'auto' : '100%')};
+
+  padding: 16px;
+  border-radius: var(--Radius-3, 12px);
+  border: 1px solid var(--Colors-Primary-300, #a6c2a4);
+  background: var(--Colors-Secondary-100, #f5f5e6);
+  box-shadow: 0px 16px 32px -12px rgba(95, 95, 88, 0.05);
+
+  & > p {
+    display: flex;
+    align-items: center;
+    color: var(--Colors-Primary-700, #476644);
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 700;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 16.2px;
+      height: 16.2px;
+      background: 50% 50% url('/img/lightbulb.svg') no-repeat;
+      background-size: contain;
+      margin-right: 4px;
+    }
+
+    & > span {
+      display: block;
+      color: var(--Colors-Neutral-1000, #1a1f1f);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 21px;
+    }
+  }
+`;

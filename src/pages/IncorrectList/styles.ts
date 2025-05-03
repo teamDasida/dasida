@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { center } from '../../style/GlobalStyle';
 
-export const IncorrectBox = styled.div<{$isMobile : boolean}>`
+export const IncorrectBox = styled.div<{ $isMobile: boolean }>`
   position: relative;   /* 절대위치 자식의 기준이 됨 */
   display: flex;
   flex-direction: ${({ $isMobile }) => $isMobile ? 'column' : 'row'};
@@ -34,6 +34,7 @@ export const IncorrectBox = styled.div<{$isMobile : boolean}>`
       font-size: 16px;
       font-weight: 400;
       line-height: 24px;
+    position: relative;
 
       button {
         display: block;
