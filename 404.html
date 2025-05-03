@@ -14,7 +14,14 @@
         const fullPath = location.pathname + location.search + location.hash;
 
         /* ③ index.html 로 보내면서 원래 경로를 ?p= 로 넘김 */
-        const target = BASENAME + '?p=' + encodeURIComponent(fullPath);
+        // 이중 인코딩 문제 방지를 위해 슬래시를 특별 처리
+        let pathToEncode = fullPath;
+        if (pathToEncode.startsWith('/')) {
+          // 슬래시를 임시로 마크하여 이중 인코딩 방지
+          pathToEncode = 'SLASH_MARKER' + pathToEncode.substring(1);
+        }
+        const encoded = encodeURIComponent(pathToEncode).replace('SLASH_MARKER', '/');
+        const target = BASENAME + '?p=' + encoded;
 
         location.replace(target);
       })();
