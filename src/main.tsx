@@ -1,11 +1,30 @@
 // src/main.tsx
+/* -------------------------------------------------
+   GitHub Pages 404 리다이렉트 ?p= 디코딩 한 줄
+-------------------------------------------------- */
+// const params = new URLSearchParams(window.location.search);
+// const p = params.get('p');
+// if (p) {
+//     // 이중 인코딩 문제 해결: 슬래시가 %2F로 인코딩되는 것을 방지
+//     let decoded = decodeURIComponent(p);
+    
+//     // 만약 경로가 /%2F로 시작한다면 수정
+//     if (decoded.startsWith('/%2F')) {
+//         decoded = '/' + decoded.substring(4);
+//     }
+    
+//     window.history.replaceState({}, '', decoded);
+// }
+/* ------------------------------------------------- */
+
+// src/main.tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
 import './index.css';
-
+import './firebase'
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

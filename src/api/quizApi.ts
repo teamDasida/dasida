@@ -8,6 +8,6 @@ export const fetchHomeData = async (): Promise<DataStructure> => {
 };
 
 export const fetchWrongAnswerNotes = async (): Promise<WrongAnswerNote[]> => {
-  const response = await axiosInstance.get<WrongAnswerNote[]>('/wrong-answer-notes');
+  const response = await axiosInstance.get<WrongAnswerNote[]>('/wrong-notes');
   return response.data;
 };

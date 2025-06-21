@@ -42,18 +42,29 @@ export default function TuiEditor(props: TuiEditorProps) {
             usageStatistics: false,
             events: {},
             hooks: {
-                addImageBlobHook: async (blob: Blob, callback: (url: string, altText: string) => void) => {
+                addImageBlobHook: async (blob, callback) => {
+                    // 1) 서버에 업로드
                     const formData = new FormData();
-                    const file = new File([blob], 'upload-image.jpg', { type: blob.type });
-                    formData.append('file', file);
+                    formData.append('file', new File([blob], 'upload.jpg', { type: blob.type }));
                     try {
-                        const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/image`, formData, {
+                        const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/image`, formData, {
                             withCredentials: true,
                         });
-                        console.log(response.data);
-                        callback(response.data.imageUrl, '');
-                    } catch (error) {
-                        console.error('Image upload failed', error);
+                        const url = res.data.imageUrl;
+
+                        // 2) 기본 삽입 무시
+                        //    false를 리턴하면 callback 기반 삽입이 취소됩니다.
+                        //    (Toast UI Editor 내부 로직이 callback 호출 후
+                        //    리턴값을 보고 디폴트 동작을 취소해요.)
+                        // 3) 직접 HTML 태그 삽입
+                        editorRef.current?.insertText(
+                            `<img src="${url}" alt="업로드 이미지" style="max-width:100%;" />`
+                        );
+                        return false;
+                    } catch (err) {
+                        console.error('Image upload failed', err);
+                        // 실패 시엔 기본 콜백으로 삽입해도 되고, 에러 메시지만 띄워도 돼요.
+                        return true;
                     }
                 },
             },

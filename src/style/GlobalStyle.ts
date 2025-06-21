@@ -13,7 +13,20 @@ export const HeaderContent = styled.header`
     width: 100%;
     height: 71px;
     background: var(--bg, #faf9f6);
-    min-width: 1280px;
+    @media (max-width: 1200px) {
+        width: 90%;
+        max-width: 90%;
+        min-width: 90%;
+    }
+
+    @media (max-width: 768px) {
+        width: 100%;
+        max-width: 100%;
+        min-width: 100%;
+
+        background: var(--bg, #fff);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 모바일에서 그림자 추가 */
+    }
 `;
 
 export const Nav = styled.nav`
@@ -24,7 +37,9 @@ export const Nav = styled.nav`
 
     & > h1 {
         margin-right: 56px;
-        width: 180px;
+        @media (max-width: 768px) {
+            margin-left: 5px;
+        }
     }
     & > ul {
         display: flex;
@@ -76,10 +91,16 @@ export const Main = styled.main<{ $paddingTop?: string }>`
     box-sizing: border-box;
     padding-bottom: 30px;
     overflow: hidden;
+    @media (max-width: 1200px) {
+        width: 90%;
+        max-width: 90%;
+    }
+
     @media (max-width: 768px) {
+        width: 100%;
         max-width: 100%;
         padding: 0 20px 110px; /* 예시로 좌우 여백 추가 */
-        padding-top: ${(props) => (props.$paddingTop ? props.$paddingTop : 0)};
+        padding-top: ${(props) => (props.$paddingTop ? props.$paddingTop : '70px')};
     }
 `;
 export const MbMain = styled.main`
@@ -101,12 +122,14 @@ export const center = css`
 `;
 
 export const SubTitle = styled.h2`
+    font-family: 'GeekbleMalang2WOFF2';
+    font-weight: 400;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
     /* Heading/H2/B */
     font-size: 20px;
-    font-weight: 700;
     margin-bottom: 24px;
     cursor: pointer;
 `;
@@ -119,14 +142,15 @@ export const EditorContainer = styled.div`
 `;
 
 export const ListTitle = styled.h2<{ $hideTitle?: boolean }>`
+    font-family: 'GeekbleMalang2WOFF2';
+    font-weight: 400;
     margin: 122px 0 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     color: var(--Colors-Neutral-1000, #1a1f1f);
-
+    flex-wrap: wrap;
     font-size: 20px;
-    font-weight: 700;
     transform: ${(props) => (props.$hideTitle ? ' translateY(-43px)' : 'translateY(0)')};
     transition: transform 0.5s;
     & > button {
@@ -143,11 +167,13 @@ export const ListTitle = styled.h2<{ $hideTitle?: boolean }>`
         }
     }
     & > div.searchInput {
+        display: flex;
+
         border-radius: var(--Radius-2, 8px);
         background: var(--white, #fff);
         padding: 0px 8px;
         box-shadow: 0px 2px 4px 0px rgba(26, 31, 31, 0.04);
-        display: none;
+        /* display: none; */
         width: 100%;
         height: 32px;
         box-sizing: border-box;
@@ -163,6 +189,8 @@ export const ListTitle = styled.h2<{ $hideTitle?: boolean }>`
             margin-right: 6px;
         }
         input {
+            font-family: 'Pretendard';
+            font-weight: 400;
             flex: 1;
             font-size: 16px;
             font-style: normal;
@@ -174,6 +202,7 @@ export const ListTitle = styled.h2<{ $hideTitle?: boolean }>`
     }
     @media (max-width: 768px) {
         position: fixed;
+        z-index: 2;
         left: 0;
         top: 0;
         padding: 23px 20px 18px;
@@ -181,6 +210,8 @@ export const ListTitle = styled.h2<{ $hideTitle?: boolean }>`
         margin: 0;
         display: block;
         width: 100%;
+        transform: ${(props) => (props.$hideTitle ? ' translateY(27px)' : 'translateY(70px)')};
+
         & > div.searchInput {
             display: flex;
         }
@@ -198,7 +229,7 @@ export const MyList = styled.ul<{ $width?: string }>`
     width: ${(props) => (props.$width ? props.$width : '100%')};
     transition: width 0.5s;
     & > li {
-        padding: 20px 8px;
+        padding: 24px 8px;
         border-bottom: 1px solid var(--Colors-Neutral-200, #d0d5d5);
         cursor: pointer;
         &:last-child {
@@ -208,7 +239,7 @@ export const MyList = styled.ul<{ $width?: string }>`
             /* Label/L1/R */
             font-size: 16px;
             font-weight: 500;
-            margin-bottom: 4px;
+            margin-bottom: 11px;
             ${ellipsisStyle};
         }
         span {
@@ -227,52 +258,51 @@ export const MyList = styled.ul<{ $width?: string }>`
     }
 `;
 
-
 interface HintContainerProps {
-  /** 중앙 정렬 여부 (transient prop) */
-  $center?: boolean;
+    /** 중앙 정렬 여부 (transient prop) */
+    $center?: boolean;
 }
 
 export const HintContainer = styled.div<HintContainerProps>`
-  position: absolute;
-  z-index: 5;
+    position: absolute;
+    z-index: 5;
 
-  /* $center 값에 따라 위치‧크기 조정 */
-  left: ${({ $center }) => ($center ? '50%' : '0')};
-  top: ${({ $center }) => ($center ? '100px;' : 'calc(100% + 34px)')};
-  transform: ${({ $center }) => ($center ? 'translateX(-50%)' : 'none')};
-  width: ${({ $center }) => ($center ? 'auto' : '100%')};
+    /* $center 값에 따라 위치‧크기 조정 */
+    left: ${({ $center }) => ($center ? '50%' : '0')};
+    top: ${({ $center }) => ($center ? '100px;' : 'calc(100% + 34px)')};
+    transform: ${({ $center }) => ($center ? 'translateX(-50%)' : 'none')};
+    width: ${({ $center }) => ($center ? 'auto' : '100%')};
 
-  padding: 16px;
-  border-radius: var(--Radius-3, 12px);
-  border: 1px solid var(--Colors-Primary-300, #a6c2a4);
-  background: var(--Colors-Secondary-100, #f5f5e6);
-  box-shadow: 0px 16px 32px -12px rgba(95, 95, 88, 0.05);
+    padding: 16px;
+    border-radius: var(--Radius-3, 12px);
+    border: 1px solid var(--Colors-Primary-300, #a6c2a4);
+    background: var(--Colors-Secondary-100, #f5f5e6);
+    box-shadow: 0px 16px 32px -12px rgba(95, 95, 88, 0.05);
 
-  & > p {
-    display: flex;
-    align-items: center;
-    color: var(--Colors-Primary-700, #476644);
-    margin-bottom: 8px;
-    font-size: 16px;
-    font-weight: 700;
+    & > p {
+        display: flex;
+        align-items: center;
+        color: var(--Colors-Primary-700, #476644);
+        margin-bottom: 8px;
+        font-size: 16px;
+        font-weight: 700;
 
-    &::before {
-      content: '';
-      display: block;
-      width: 16.2px;
-      height: 16.2px;
-      background: 50% 50% url('/img/lightbulb.svg') no-repeat;
-      background-size: contain;
-      margin-right: 4px;
+        &::before {
+            content: '';
+            display: block;
+            width: 16.2px;
+            height: 16.2px;
+            background: 50% 50% url('/img/lightbulb.svg') no-repeat;
+            background-size: contain;
+            margin-right: 4px;
+        }
+
+        & > span {
+            display: block;
+            color: var(--Colors-Neutral-1000, #1a1f1f);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 21px;
+        }
     }
-
-    & > span {
-      display: block;
-      color: var(--Colors-Neutral-1000, #1a1f1f);
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 21px;
-    }
-  }
 `;

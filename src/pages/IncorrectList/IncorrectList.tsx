@@ -5,6 +5,8 @@ import { HintContainer, ListTitle, Main, MyList } from '../../style/GlobalStyle'
 import { IncorrectBox, LearningDetail, CloseBtn } from './styles';
 import { useState } from 'react';
 import { WrongAnswerNote } from '../../types/quizTypes';
+import NoQuiz from '../TodayQuiz/components/NoQuiz';
+import { IoCheckmark } from 'react-icons/io5';
 
 export default function IncorrectList() {
     const [detail, setDetail] = useState(false);
@@ -29,56 +31,74 @@ export default function IncorrectList() {
 
     return (
         <>
-            <Main $paddingTop={isMobile ? `101px` : '0'}>
-
-                <ListTitle $hideTitle={hideTitle}>
+            <Main $paddingTop={isMobile ? `160px` : '0'}>
+                <ListTitle $hideTitle={hideTitle && !detail}>
                     오답노트
                     {!detail && (
                         <div className="searchInput">
-                            <input type="text" placeholder="지식 검색" />
+                            <input type="text" placeholder="오답 검색" />
                         </div>
                     )}
                 </ListTitle>
+                {wrongAnswerNotes.length ? (
+                    <IncorrectBox $isMobile={isMobile}>
+                        <MyList $width={detail && !isMobile ? '384px' : '100%'}>
+                            {wrongAnswerNotes.map((v) => (
+                                <li key={v.quizId} onClick={() => handleQuizClick(v)}>
+                                    <p>{v.quizText}</p>
+                                </li>
+                            ))}
+                        </MyList>
 
-                <IncorrectBox $isMobile={isMobile}>
-                    <MyList $width={detail && !isMobile ? '384px' : '100%'}>
-                        {wrongAnswerNotes.map(v => <li key={v.quizId} onClick={() => handleQuizClick(v)}>
-                            <p>{v.quizText}</p>
-                        </li>)}
+                        {detail && selectedQuizId && (
+                            <div>
+                                <p>
+                                    문제
+                                    <button onClick={handleShowAnswer}>클릭 해서 정답 보기</button>
+                                    {showAnswer && (
+                                        <HintContainer $center>
+                                            <p>
+                                                {
+                                                    wrongAnswerNotes.find((quiz) => quiz.quizId === selectedQuizId)
+                                                        ?.quizAnswer
+                                                }
+                                            </p>
+                                        </HintContainer>
+                                    )}
+                                </p>
+                                <CloseBtn aria-label="닫기" onClick={() => setDetail(false)}>
+                                    ✕
+                                </CloseBtn>
 
-
-                    </MyList>
-
-                    {detail && selectedQuizId && (
-                        <div>
-
-                            <p>
-                                문제
-                                <button onClick={handleShowAnswer}>클릭 해서 정답 보기</button>
-                                {showAnswer && (
-                                    <HintContainer $center>
-                                        <p>{wrongAnswerNotes.find((quiz) => quiz.quizId === selectedQuizId)?.quizAnswer}</p>
-                                    </HintContainer>
-                                )}
-                            </p>
-                            <CloseBtn aria-label="닫기" onClick={() => setDetail(false)}>
-                                ✕
-                            </CloseBtn>
-
-                            <LearningDetail>
-                                <p>학습 내역</p>
-                                <ul>
-                                    {wrongAnswerNotes.find((quiz) => quiz.quizId === selectedQuizId)?.answers.map((answer) => (
-                                        <li key={answer.userAnswerId}>
-                                            <img src="./img/circle-alert.svg" alt="" />
-                                            {answer.userAnswer}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </LearningDetail>
-                        </div>
-                    )}
-                </IncorrectBox>
+                                <LearningDetail>
+                                    <p>학습 내역</p>
+                                    <ul>
+                                        {wrongAnswerNotes
+                                            .find((quiz) => quiz.quizId === selectedQuizId)
+                                            ?.answers.map((answer) => (
+                                                <li key={answer.userAnswerId}>
+                                                    {answer.correct ? (
+                                                        <span className="icon-wrap">
+                                                            {/* 연두색 빈 원 → IoRadioButtonOff */}
+                                                            {/* <IoRadioButtonOff size={24} color="r" /> */}
+                                                            {/* 흰색 체크 → IoCheckmark */}
+                                                            <IoCheckmark size={16} color="#000" />
+                                                        </span>
+                                                    ) : (
+                                                        <img src="./img/circle-alert.svg" alt="" />
+                                                    )}
+                                                    {answer.userAnswer}
+                                                    <b>{answer.dayType} 일차</b>
+                                                </li>
+                                            ))}
+                                    </ul>
+                                </LearningDetail>
+                            </div>
+                        )}
+                    </IncorrectBox>
+                ) : (
+                    <NoQuiz mainTxt="오답이 없어요" />
+                )}
             </Main>
         </>
     );

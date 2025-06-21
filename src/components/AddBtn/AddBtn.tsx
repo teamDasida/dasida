@@ -22,14 +22,19 @@ export default function AddBtn({ onConfirm }: AddBtnProps) {
 
 const BtnStyle = styled.button`
     position: fixed;
-    right: 20px;
     bottom: 96px;
     border-radius: 50%;
     background: var(--Colors-Primary-200, #c4d7c2);
-
+    right: calc(var(--main-margin) + 20px);
     /* Global Tokens/E3 */
     box-shadow: 0px 16px 40px -8px rgba(95, 95, 88, 0.16);
     width: 48px;
     height: 48px;
     ${center};
+    @media (max-width: 1200px) {
+        right: calc(5% + 20px);
+    }
+    @media (max-width: 765px) {
+        right: 20px;
+    }
 `;

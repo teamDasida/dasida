@@ -1,24 +1,40 @@
+// pages/KnowledgeDetail/Detail.tsx
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { EditorContainer, Main } from '../../style/GlobalStyle';
 import { ViewerContainer, Title } from './styles';
 import TuiViewer from './components/TuiViewer';
+import { fetchKnowledgeDetail, KnowledgeDetail } from '../../api/knowledge';
+import NotFound from '../NotFound/NotFound';
 
 export default function Detail() {
-    // 예시 데이터: 실제로는 서버나 전역 상태에서 데이터를 받아올 수 있습니다.
-    const titleText = '게시글 제목 예시';
-    const markdownContent = String.raw`
-안녕 하세여 반가워용 ~~
-`;
+    /* URL 파라미터 (/knowledge/:id) */
+    const { id = '' } = useParams<{ id: string }>();
+
+    /* React-Query: 상세 데이터 */
+    const {
+        data, // KnowledgeDetail | undefined
+        isLoading,
+        error,
+    } = useQuery<KnowledgeDetail, Error>({
+        queryKey: ['knowledge', id],
+        queryFn: () => fetchKnowledgeDetail(id),
+        enabled: !!id, // id가 있을 때만 요청
+    });
+
+    /* 로딩/에러 처리 */
+    // if (isLoading) return <p>로딩 중…</p>;
+    if (error) return <NotFound />;
+    console.log(data);
 
     return (
-        <>
-            <Main>
-                <EditorContainer>
-                    <ViewerContainer>
-                        <Title>{titleText}</Title>
-                        <TuiViewer initialValue={markdownContent} />
-                    </ViewerContainer>
-                </EditorContainer>
-            </Main>
-        </>
+        <Main>
+            <EditorContainer>
+                <ViewerContainer>
+                    <Title>{data?.title}</Title>
+                    <TuiViewer initialValue={data?.content} />
+                </ViewerContainer>
+            </EditorContainer>
+        </Main>
     );
 }

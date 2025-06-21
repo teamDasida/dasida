@@ -23,9 +23,7 @@ export const QuizList = styled.div<{ $answer?: 'unanswered' | 'correct' | 'incor
     box-shadow: 0px 2px 4px 0px rgba(26, 31, 31, 0.04);
 `;
 
-
-
-export const Passage = styled.div<{$length:number}>`
+export const Passage = styled.div<{ $length: number }>`
     /* Paragraph/P2/R */
     font-size: 16px;
     font-weight: 400;
@@ -33,11 +31,12 @@ export const Passage = styled.div<{$length:number}>`
     & > input {
         border-radius: var(--Radius-1, 4px);
         background: var(--Colors-blue-0, #dcf2fe);
-        width: ${props=>props.$length ? `calc(${props.$length} * 25px)` : '50px'};
+        width: ${(props) => (props.$length ? `calc(${props.$length} * 25px)` : '50px')};
         height: 24px;
         box-sizing: border-box;
         line-height: 24px;
         padding: 0 10px;
+        max-width:90%;
     }
 `;
 export const PassageTitle = styled.p`
@@ -70,12 +69,23 @@ export const HelpBtn = styled.button`
         background-size: contain;
     }
 `;
+export const Days = styled.b`
+    position: absolute;
+    bottom: 16px;
+    right: 24px;
+    font-size: 14px;
+    color: var(--Colors-Neutral-800, #445050);
+    letter-spacing: 1px;
+    line-height:40px;
+`;
 
 export const Knowledge = styled.ul`
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+
     li {
+        cursor: pointer;
         background: var(--white, #fff);
         padding: 24px;
         height: 150px;
@@ -145,14 +155,12 @@ export const NoQuizContainer = styled.div`
     @media (max-width: 768px) {
         height: calc(100vh - 76px);
         span {
-        font-size: 16px;
-        b {
-            font-size: 14px;
-            margin-top: 2px;
-
+            font-size: 16px;
+            b {
+                font-size: 14px;
+                margin-top: 2px;
+            }
         }
-    }
-
     }
 
     &::before {

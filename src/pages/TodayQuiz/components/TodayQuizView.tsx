@@ -1,7 +1,7 @@
 // src/components/TodayQuiz/TodayQuizView.tsx
 import { useState, useEffect } from 'react';
 import { Main, SubTitle ,HintContainer} from '../../../style/GlobalStyle';
-import { HelpBtn, Knowledge, Passage, QuizContainer, QuizList } from '../styles';
+import { Days, HelpBtn, Knowledge, Passage, QuizContainer, QuizList } from '../styles';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { DataStructure } from '../../../type';
@@ -11,12 +11,14 @@ import NoQuiz from './NoQuiz';
 interface TodayQuizViewProps {
   data: DataStructure | null;
   onKnowledgeClick: () => void;
+  onKnowledgDetaileClick: (id : number) => void;
   onSubmitAnswer: (quizId: number, answer: string, dayType: number) => void;
 }
 
 export default function TodayQuizView({
   data,
   onKnowledgeClick,
+  onKnowledgDetaileClick,
   onSubmitAnswer,
 }: TodayQuizViewProps) {
   const [answers, setAnswers] = useState<Record<number, string>>({});
@@ -98,6 +100,7 @@ export default function TodayQuizView({
                       >
                         힌트 보기
                       </HelpBtn>
+                      <Days>{quiz.dayType} 일차</Days>
                       {visibleHints[quiz.quizId] && (
                         <HintContainer>
                           <p>Hint</p>
@@ -115,7 +118,7 @@ export default function TodayQuizView({
           </SubTitle>
           <Knowledge>
             {data.knowledges.map((k) => (
-              <li key={k.id}>
+              <li key={k.id} onClick={()=>onKnowledgDetaileClick(k.id)}>
                 <div>
                   <p>{k.title}</p>
                   <span>{k.content}</span>

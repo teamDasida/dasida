@@ -1,7 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { HeaderContent, Nav, UserInfo } from '../../style/GlobalStyle';
 
-export default function UserHeader() {
+interface Prop {
+    isMobile: boolean;
+}
+export default function UserHeader({ isMobile }: Prop) {
     const location = useLocation();
     const navigate = useNavigate();
     return (
@@ -10,31 +13,33 @@ export default function UserHeader() {
                 <h1>
                     <img src="/img/logo.svg" alt="로고" />
                 </h1>
-                <ul>
-                    <li onClick={() => navigate('/')} className={location.pathname === '/' ? 'on' : ''}>
-                        홈
-                    </li>
-                    <li
-                        onClick={() => navigate('/knowledge')}
-                        className={location.pathname.includes('/knowledge') ? 'on' : ''}
-                    >
-                        지식 보관소
-                    </li>
-                    <li
-                        onClick={() => navigate('/wrong-answers')}
-                        className={location.pathname === '/wrong-answers' ? 'on' : ''}
-                    >
-                        오답노트
-                    </li>
-                </ul>
+                {!isMobile && (
+                    <ul>
+                        <li onClick={() => navigate('/')} className={location.pathname === '/' ? 'on' : ''}>
+                            홈
+                        </li>
+                        <li
+                            onClick={() => navigate('/knowledge')}
+                            className={location.pathname.includes('/knowledge') ? 'on' : ''}
+                        >
+                            지식 보관소
+                        </li>
+                        <li
+                            onClick={() => navigate('/wrong-answers')}
+                            className={location.pathname === '/wrong-answers' ? 'on' : ''}
+                        >
+                            오답노트
+                        </li>
+                    </ul>
+                )}
             </Nav>
             <UserInfo>
-                <button>
+                {/* <button>
                     <img src="/img/search.svg" alt="검색" />
-                </button>
-                <button>
+                </button> */}
+                {/* <button>
                     <img src="/img/profile.png" alt="프로필" />
-                </button>
+                </button> */}
             </UserInfo>
         </HeaderContent>
     );

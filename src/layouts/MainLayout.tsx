@@ -20,9 +20,7 @@ function MainLayout() {
     // 최소 로딩 시간을 위한 상태 (1.5초 이상 로딩 애니메이션을 보여줌)
     const [minTimePassed, setMinTimePassed] = useState(false);
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setMinTimePassed(true);
-        }, 1500);
+        const timer = setTimeout(() => setMinTimePassed(true), 1500);
         return () => clearTimeout(timer);
     }, []);
 
@@ -36,44 +34,55 @@ function MainLayout() {
         queryFn: fetchWrongAnswerNotes,
     });
 
+    console.log(homeData);
+    
+
+    // 스크롤 상단으로
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [location.pathname]);
 
-    // 데이터가 불러와지면 quizzes에 viewHint와 result 값을 추가하여 zustand 스토어에 저장
+    // homeData가 준비되면 store에 저장
     useEffect(() => {
         if (homeData) {
             const modifiedData: DataStructure = {
                 ...homeData,
-                quizzes: homeData.quizzes.map((quiz) => ({
-                    ...quiz,
-                    viewHint: false, // 힌트 보기 상태 (기본값 false)
-                    result: 'unanswered', // 정답 여부 상태 (기본값 unanswered)
+                quizzes: homeData.quizzes.map(q => ({
+                    ...q,
+                    viewHint: false,
+                    result: 'unanswered',
                 })),
             };
             setMainQuiz(modifiedData);
         }
     }, [homeData, setMainQuiz]);
 
-    // 잘못된 답안 노트를 store에 저장
+    // wrongNotes가 준비되면 store에 저장
     useEffect(() => {
         if (wrongNotes) {
             setWrongAnswerNotes(wrongNotes);
         }
     }, [wrongNotes, setWrongAnswerNotes]);
 
-    // 데이터 로딩 중이거나 최소 1.5초가 지나지 않은 경우 Loading 컴포넌트 표시
-    if (homeLoading || wrongLoading || !minTimePassed) return <Loading />;
+    // 에러 시 메인으로 리다이렉트
+    useEffect(() => {
+        if (homeError || wrongError) {
+            navigate('/main');
+        }
+    }, [homeError, wrongError, navigate]);
 
-    if (homeError || wrongError) {
-        navigate('/main');
+    // 데이터 로딩 중이거나 최소 시간 미경과 시 로딩 컴포넌트 표시
+    if (homeLoading || wrongLoading || !minTimePassed) {
+        return <Loading />;
     }
 
     return (
         <>
-            {!isMobile && location.pathname !== '/main' && <UserHeader />}
+            {location.pathname !== '/main' && <UserHeader isMobile={isMobile}/>}
             <Outlet />
-            {location.pathname !== '/main' && <AddBtn onConfirm={() => navigate('/knowledge/add')} />}
+            {location.pathname !== '/main' && (
+                <AddBtn onConfirm={() => navigate('/knowledge/add')} />
+            )}
             {isMobile && location.pathname !== '/main' && <BottomBtns />}
         </>
     );

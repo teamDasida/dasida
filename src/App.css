@@ -28,6 +28,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'GeekbleMalang2WOFF2';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/GeekbleMalang2WOFF2.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* CSS 변수 설정 */
 :root {
   /* --main-font-color: #363636;
@@ -43,6 +50,8 @@
   --Colors-Neutral-200: #D0D5D5;
   --Colors-Secondary-400: #90906E;
   --Colors-Neutral-800: #445050;
+  --main-margin: calc((100vw - 1200px) / 2);
+
 }
 
 /* CSS 초기화 */

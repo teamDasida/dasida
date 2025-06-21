@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>다시다</title>
-  <script type="text/javascript">
-    // GitHub Pages에서 SPA 라우팅을 위한 리다이렉트
-    (function(l) {
-      if (l.search[1] === '/' ) {
-        var decoded = l.search.slice(1).split('&').map(function(s) { 
-          return s.replace(/~and~/g, '&')
-        }).join('?');
-        window.history.replaceState(null, null,
-            l.pathname.slice(0, -1) + decoded + l.hash
-        );
-      }
-    }(window.location))
-  </script>
-</head>
-<body>
-  <script>
-    // 메인 페이지로 리다이렉트
-    const segmentCount = 0;
-    const location = window.location;
-    const rootPath = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
-    const path = location.pathname.split('/').slice(0, 1 + segmentCount).join('/');
-    const redirectUrl = rootPath + path + '/?p=' + location.pathname.slice(path.length);
-    window.location.replace(redirectUrl);
-  </script>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting…</title>
+
+    <!-- GitHub Pages 404 → SPA 라우팅 -->
+    <script>
+      (function () {
+        /* ① 저장소 루트 경로 — vite.config.ts의 base와 같아야 함 */
+        const BASENAME = '/';     // 예: '/<repo-name>/'
+
+        /* ② 현재 경로·쿼리·해시 조합 */
+        const fullPath = location.pathname + location.search + location.hash;
+
+        /* ③ index.html 로 보내면서 원래 경로를 ?p= 로 넘김 */
+        // 이중 인코딩 문제 방지를 위해 슬래시를 특별 처리
+        let pathToEncode = fullPath;
+        if (pathToEncode.startsWith('/')) {
+          // 슬래시를 임시로 마크하여 이중 인코딩 방지
+          pathToEncode = 'SLASH_MARKER' + pathToEncode.substring(1);
+        }
+        const encoded = encodeURIComponent(pathToEncode).replace('SLASH_MARKER', '/');
+        const target = BASENAME + '?p=' + encoded;
+
+        location.replace(target);
+      })();
+    </script>
+  </head>
+  <body></body>
 </html>

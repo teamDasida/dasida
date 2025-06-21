@@ -19,3 +19,9 @@ export interface DataStructure {
     quizzes: Quiz[];
     knowledges: Knowledge[];
 }
+
+export interface KnowledgeItem {
+    id: number;
+    title: string;
+    createAt: string;         // ISO date string
+  }
