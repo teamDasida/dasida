@@ -14,7 +14,6 @@ export default function Detail() {
     /* React-Query: 상세 데이터 */
     const {
         data, // KnowledgeDetail | undefined
-        isLoading,
         error,
     } = useQuery<KnowledgeDetail, Error>({
         queryKey: ['knowledge', id],
@@ -32,7 +31,7 @@ export default function Detail() {
             <EditorContainer>
                 <ViewerContainer>
                     <Title>{data?.title}</Title>
-                    <TuiViewer initialValue={data?.content} />
+                    <TuiViewer initialValue={data?.content || ''} />
                 </ViewerContainer>
             </EditorContainer>
         </Main>

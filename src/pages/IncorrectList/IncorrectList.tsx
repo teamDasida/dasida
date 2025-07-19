@@ -5,7 +5,7 @@ import { HintContainer, ListTitle, Main, MyList } from '../../style/GlobalStyle'
 import { IncorrectBox, LearningDetail, CloseBtn } from './styles';
 import { useState } from 'react';
 import { WrongAnswerNote } from '../../types/quizTypes';
-import NoQuiz from '../TodayQuiz/components/NoQuiz';
+import NoQuiz from '../../components/NoQuiz/NoQuiz';
 import { IoCheckmark } from 'react-icons/io5';
 
 export default function IncorrectList() {

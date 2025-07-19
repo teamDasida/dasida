@@ -36,7 +36,7 @@ export const Passage = styled.div<{ $length: number }>`
         box-sizing: border-box;
         line-height: 24px;
         padding: 0 10px;
-        max-width:90%;
+        max-width: 90%;
     }
 `;
 export const PassageTitle = styled.p`
@@ -76,10 +76,10 @@ export const Days = styled.b`
     font-size: 14px;
     color: var(--Colors-Neutral-800, #445050);
     letter-spacing: 1px;
-    line-height:40px;
+    line-height: 40px;
 `;
 
-export const Knowledge = styled.ul`
+export const KnowledgeList = styled.ul`
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -144,53 +144,6 @@ export const Knowledge = styled.ul`
                     height: auto;
                 }
             }
-        }
-    }
-`;
-
-export const NoQuizContainer = styled.div`
-    ${center};
-    flex-direction: column;
-    height: calc(100vh - 71px);
-    @media (max-width: 768px) {
-        height: calc(100vh - 76px);
-        span {
-            font-size: 16px;
-            b {
-                font-size: 14px;
-                margin-top: 2px;
-            }
-        }
-    }
-
-    &::before {
-        content: '';
-        width: 150px;
-        height: 96px;
-        display: block;
-        margin-bottom: 24px;
-        background: 50% 50% url('/img/loading.png') no-repeat;
-    }
-    span {
-        display: block;
-        color: var(--Colors-Neutral-1000, #1a1f1f);
-        text-align: center;
-
-        /* Paragraph/P2/R */
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 21px; /* 21px */
-
-        b {
-            display: block;
-            color: var(--Colors-Neutral-700, #5a6868);
-
-            /* Paragraph/P3/R */
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 21px; /* 21px */
-            margin-top: 6px;
         }
     }
 `;

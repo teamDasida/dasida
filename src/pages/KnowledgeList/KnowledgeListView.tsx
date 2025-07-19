@@ -3,7 +3,7 @@
 import React from 'react';
 import { ListTitle, Main, MyList } from '../../style/GlobalStyle';
 import { KnowledgeItem } from '../../type';
-import NoQuiz from '../TodayQuiz/components/NoQuiz';
+import NoQuiz from '../../components/NoQuiz/NoQuiz';
 
 interface Props {
     items: KnowledgeItem[];

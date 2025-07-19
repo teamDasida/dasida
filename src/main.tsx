@@ -7,12 +7,12 @@
 // if (p) {
 //     // 이중 인코딩 문제 해결: 슬래시가 %2F로 인코딩되는 것을 방지
 //     let decoded = decodeURIComponent(p);
-    
+
 //     // 만약 경로가 /%2F로 시작한다면 수정
 //     if (decoded.startsWith('/%2F')) {
 //         decoded = '/' + decoded.substring(4);
 //     }
-    
+
 //     window.history.replaceState({}, '', decoded);
 // }
 /* ------------------------------------------------- */
@@ -24,7 +24,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
 import './index.css';
-import './firebase'
+import './firebase';
+
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -37,6 +38,23 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </React.StrictMode>
 );
 
+// --- 서비스 워커 등록 코드 시작 ---
+// 개발 환경에서는 서비스 워커가 빌드되지 않은 파일을 캐시하려 시도하여 오류가 발생할 수 있습니다.
+// 따라서, 프로덕션 빌드 (배포 시)에서만 서비스 워커를 등록하도록 조건을 추가하는 것이 좋습니다.
+if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker
+            .register('/service-worker.js')
+            .then((registration) => {
+                console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+                console.log('SW registration failed: ', registrationError);
+            });
+    });
+}
+// --- 서비스 워커 등록 코드 끝 ---
+// --- 서비스 워커 등록 코드 추가 끝 ---
 // // router.tsx (또는 index.tsx, main.tsx 등 라우터를 정의한 파일)
 
 // import React from 'react';

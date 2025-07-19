@@ -4,7 +4,12 @@ import { KakaoBtn, MbCharacterBox } from '../styles';
 
 export default function MainMobileView() {
     const handleClickLogin = useKakaoLogin();
+    // const handleGetToken = async() => {
+    //     if (!PUSH_AVAILABLE) return;
 
+    //     const token = await getFcmToken(); // ★ 권한 요청·SW 등록 포함
+    //     alert(token);
+    // };
     return (
         <MbMain>
             <MbCharacterBox>

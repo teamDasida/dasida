@@ -3,42 +3,67 @@ import AddView from './components/AddView';
 import axiosInstance from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+
+import { getFcmToken, PUSH_AVAILABLE } from '../../firebase'; // ★ 새 래퍼 함수
+
 export default function AddContainer() {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    console.log(content);
+    /* ----------------------------------------------------------
+     * 1) 푸시 토큰 발급 & 서버 저장
+     * -------------------------------------------------------- */
+    const registerPushToken = async () => {
+        if (!PUSH_AVAILABLE) return;
 
-    // 전송 버튼 클릭 시 제목과 내용을 전송(혹은 콘솔 출력)
+        const token = await getFcmToken(); // ★ 권한 요청·SW 등록 포함
+        if (!token) {
+            console.warn('[FCM] 토큰을 발급받지 못했습니다.');
+            return;
+        }
+
+        try {
+            await axiosInstance.post('/token', { token });
+            console.debug('[FCM] 토큰 저장 완료');
+        } catch (e) {
+            console.error('[FCM] 토큰 저장 실패:', e);
+        }
+    };
+
+    /* ----------------------------------------------------------
+     * 2) 게시글 전송
+     * -------------------------------------------------------- */
     const handleSubmit = async () => {
         if (!title.trim() || !content.trim()) {
             alert('제목과 내용을 입력해주세요.');
             return;
         }
 
+        setIsLoading(true);
         try {
-            setIsLoading(true);
-            const response = await axiosInstance.post(`/knowledge`, {
-                title,
-                content,
-            });
+            const { data } = await axiosInstance.post('/knowledge', { title, content });
             queryClient.invalidateQueries({ queryKey: ['home'] });
-            console.log('Article submitted successfully:', response.data);
-            navigate('/'); // 성공 시 메인 페이지로 이동
+
+            if (data.needPushPermission) await registerPushToken(); // ★ 조건부 호출
+            navigate('/'); // 메인으로 이동
         } catch (err) {
-            console.error('Error submitting article:', err);
-            alert('데이터를 서버에 전송하는 중에 오류가 발생했습니다.');
+            console.error('게시글 전송 오류:', err);
+            alert('데이터 전송 중 오류가 발생했습니다.');
             setIsLoading(false);
         }
     };
-    // 내용은 최대 500자까지
-    const onContentChange = (content: string) => {
-        const truncated = content.length > 500 ? content.slice(0, 500) : content;
-        setContent(truncated);
+
+    /* ----------------------------------------------------------
+     * 3) 에디터 내용 500자 제한
+     * -------------------------------------------------------- */
+    const onContentChange = (val: string) => {
+        setContent(val.slice(0, 500));
     };
+
     return (
         <AddView
             title={title}

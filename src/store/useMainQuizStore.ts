@@ -4,26 +4,32 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { DataStructure } from '../type';
 import { WrongAnswerNote } from '../types/quizTypes';
 
+// util: React처럼 값 or 업데이트 함수 둘 다 받을 수 있도록
+type SetStateAction<T> = T | ((prev: T) => T);
+
 interface StoreState {
-    mainQuiz: DataStructure | null;
-    wrongAnswerNotes: WrongAnswerNote[];
-    setMainQuiz: (newData: DataStructure) => void;
-    setWrongAnswerNotes: (notes: WrongAnswerNote[]) => void;
+  mainQuiz: DataStructure | null;
+  wrongAnswerNotes: WrongAnswerNote[];
+  setMainQuiz: (action: SetStateAction<DataStructure | null>) => void;
+  setWrongAnswerNotes: (notes: WrongAnswerNote[]) => void;
 }
 
 const useMainQuizStore = create<StoreState>()(
-    persist(
-        (set) => ({
-            mainQuiz: null,
-            wrongAnswerNotes: [],
-            setMainQuiz: (newData: DataStructure) => set({ mainQuiz: newData }),
-            setWrongAnswerNotes: (notes: WrongAnswerNote[]) => set({ wrongAnswerNotes: notes }),
-        }),
-        {
-            name: 'myStore', // sessionStorage에 저장될 key 이름
-            storage: createJSONStorage(() => sessionStorage), // sessionStorage를 사용
-        }
-    )
+  persist<StoreState>(
+    (set) => ({
+      mainQuiz: null,
+      wrongAnswerNotes: [],
+      setMainQuiz: (action) =>
+        set((state) => ({
+          mainQuiz: typeof action === 'function' ? action(state.mainQuiz) : action,
+        })),
+      setWrongAnswerNotes: (notes) => set({ wrongAnswerNotes: notes }),
+    }),
+    {
+      name: 'myStore',
+      storage: createJSONStorage(() => sessionStorage),
+    }
+  )
 );
 
 export default useMainQuizStore;

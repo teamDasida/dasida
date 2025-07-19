@@ -24,7 +24,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "types"],
    "exclude": [
   "src/**/*.spec.ts",   "public/**/*"            // public 전체를 제외
 ]
