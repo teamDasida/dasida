@@ -153,6 +153,7 @@ export const ListTitle = styled.h2<{ $hideTitle?: boolean }>`
     font-size: 20px;
     transform: ${(props) => (props.$hideTitle ? ' translateY(-43px)' : 'translateY(0)')};
     transition: transform 0.5s;
+    background: var(--bg, #faf9f6);
     & > button {
         border-radius: var(--Radius-2, 8px);
         background: var(--Colors-Primary-200, #c4d7c2);
@@ -206,7 +207,7 @@ export const ListTitle = styled.h2<{ $hideTitle?: boolean }>`
         left: 0;
         top: 0;
         padding: 23px 20px 18px;
-        background-color: #fff;
+        /* background-color: #fff; */
         margin: 0;
         display: block;
         width: 100%;

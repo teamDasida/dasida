@@ -44,7 +44,6 @@ export default function KnowledgeListContainer() {
     });
     const listItems: KnowledgeItem[] = listData?.pages.flatMap((p) => p.items) ?? [];
 
-    console.log(listData);
 
     // ── 검색 ──
     const {

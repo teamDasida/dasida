@@ -1,18 +1,46 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import basicSsl from '@vitejs/plugin-basic-ssl'
+// vite.config.ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import basicSsl from '@vitejs/plugin-basic-ssl';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-  base: '/',
-  plugins: [react(), basicSsl()],
-  server: {
-    host: 'dasida.org',
-    port: 3000,
-    https: {} // true 대신 빈 객체를 사용하여 기본 SSL 옵션 사용
-  }
-})
+    base: '/', // 루트에서 배포한다면 그대로
+    plugins: [
+        react(),
+        basicSsl(), // dev HTTPS
+        VitePWA({
+            registerType: 'autoUpdate',
+            filename: 'service-worker.js', // dist/service-worker.js 생성
+            injectRegister: 'auto', // index.html에 자동 삽입
+            manifest: {
+                name: '다시다',
+                short_name: '다시다',
+                icons: [
+                    {
+                        src: '/icons/icon-192.png',
+                        sizes: '192x192',
+                        type: 'image/png',
+                    },
+                    {
+                        src: '/icons/icon-512.png',
+                        sizes: '512x512',
+                        type: 'image/png',
+                    },
+                ],
+            },
+        }),
+    ],
 
-// // // vite.config.ts
+    /** dev 서버 설정 – 수정할 필요 거의 없음 */
+    server: {
+        host: 'dasida.org', // 로컬 개발 중 HTTPS 테스트용이면 OK
+        port: 3000,
+        https: {}, // 기본 self‑signed
+    },
+});
+
+// // vite.config.ts
 // import { defineConfig, type ServerOptions } from 'vite';
 // import react from '@vitejs/plugin-react';
 // import { VitePWA } from 'vite-plugin-pwa';

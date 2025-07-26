@@ -28,11 +28,11 @@ export default function AddView({
                         type="text"
                         value={title}
                         onChange={(e) => handleTitleChange(e.target.value)}
-                        placeholder="타이틀을 입력하세요"
+                        placeholder="제목을 입력하세요"
                         maxLength={40}
                     />
                     <TuiEditor
-                        initialValue="Hello Toast UI Editor!"
+                        initialValue="지식을 입력해주세요!"
                         previewStyle="vertical" // "vertical" | "tab"
                         initialEditType="markdown" // "markdown" | "wysiwyg"
                         height="400px"

@@ -1,4 +1,4 @@
-import useHideTitleOnScroll from '../../hooks/useHideTitleOnScroll';
+// import useHideTitleOnScroll from '../../hooks/useHideTitleOnScroll';
 import useIsMobile from '../../hooks/useIsMobile';
 import useMainQuizStore from '../../store/useMainQuizStore';
 import { HintContainer, ListTitle, Main, MyList } from '../../style/GlobalStyle';
@@ -13,7 +13,7 @@ export default function IncorrectList() {
     const [selectedQuizId, setSelectedQuizId] = useState<number | null>(null);
     const [showAnswer, setShowAnswer] = useState(false);
     const isMobile = useIsMobile();
-    const hideTitle = useHideTitleOnScroll();
+    // const hideTitle = useHideTitleOnScroll();
     const { wrongAnswerNotes } = useMainQuizStore();
 
     const handleQuizClick = (quiz: WrongAnswerNote) => {
@@ -31,14 +31,14 @@ export default function IncorrectList() {
 
     return (
         <>
-            <Main $paddingTop={isMobile ? `160px` : '0'}>
-                <ListTitle $hideTitle={hideTitle && !detail}>
+            <Main $paddingTop={isMobile ? `132px` : '0'}>
+                <ListTitle>
                     오답노트
-                    {!detail && (
+                    {/* {!detail && (
                         <div className="searchInput">
                             <input type="text" placeholder="오답 검색" />
                         </div>
-                    )}
+                    )} */}
                 </ListTitle>
                 {wrongAnswerNotes.length ? (
                     <IncorrectBox $isMobile={isMobile}>
@@ -53,7 +53,7 @@ export default function IncorrectList() {
                         {detail && selectedQuizId && (
                             <div>
                                 <p>
-                                    문제
+                                    {wrongAnswerNotes.find((quiz) => quiz.quizId === selectedQuizId)?.quizText}
                                     <button onClick={handleShowAnswer}>클릭 해서 정답 보기</button>
                                     {showAnswer && (
                                         <HintContainer $center>

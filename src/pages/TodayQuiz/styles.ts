@@ -31,7 +31,8 @@ export const Passage = styled.div<{ $length: number }>`
     & > input {
         border-radius: var(--Radius-1, 4px);
         background: var(--Colors-blue-0, #dcf2fe);
-        width: ${(props) => (props.$length ? `calc(${props.$length} * 25px)` : '50px')};
+        width: ${({ $length }) => ($length ? `${$length * 40}px` : '50px')};
+
         height: 24px;
         box-sizing: border-box;
         line-height: 24px;

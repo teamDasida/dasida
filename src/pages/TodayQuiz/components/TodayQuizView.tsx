@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Main, SubTitle, HintContainer } from '../../../style/GlobalStyle';
 import { Days, HelpBtn, Passage, QuizContainer, QuizList, KnowledgeList } from '../styles';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -30,7 +30,7 @@ export default function TodayQuizView({
     const handleInputChange = (quizId: number, v: string) => setAnswers((p) => ({ ...p, [quizId]: v }));
     const clear = quizList.length === 0 && knowledges.length > 0;
     /** ① 이전 퀴즈 개수를 기억해 둘 ref */
-    const prevLenRef = useRef(quizList.length);
+    const prevIdsRef = useRef<number[]>([]); // 이전 quizId 배열 저장
 
     const renderQuestion = (question: string, quizId: number) => {
         const parts = question.split('____');
@@ -77,19 +77,35 @@ export default function TodayQuizView({
     /* ────────────────────────────────────────────────────────── */
     /* 2️⃣  원본 배열 길이가 줄어든 순간 인덱스 보정                */
     /* ────────────────────────────────────────────────────────── */
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!swiper) return;
 
-        const prevLen = prevLenRef.current;
-        if (quizList.length < prevLen) {
-            // 삭제된 슬라이드가 activeIndex 앞쪽에 있으면 한 칸 앞으로
-            if (swiper.activeIndex >= quizList.length) {
-                swiper.slideTo(Math.max(quizList.length - 1, 0), 0, false);
-                setActiveIndex(swiper.activeIndex); // state 동기화
+        // --- 1. DOM‑diff 이후 즉시 Swiper 내부 캐시 갱신 ---
+        swiper.update(); // 핵심! (updateSlides / updateSize 내부 호출)
+
+        const prevIds = prevIdsRef.current;
+        const currIds = quizList.map((q) => q.quizId);
+
+        // --- 2. 삭제된 슬라이드가 존재하는지 확인 ---
+        if (currIds.length < prevIds.length) {
+            // 어떤 id가 사라졌는지 찾기
+            const removedId = prevIds.find((id) => !currIds.includes(id));
+            const removedIndex = prevIds.indexOf(removedId!);
+
+            // 2‑1. 현재 인덱스가 범위를 초과하면 마지막 슬라이드로
+            if (swiper.activeIndex >= currIds.length) {
+                swiper.slideTo(Math.max(currIds.length - 1, 0), 0, false);
             }
+            // 2‑2. 삭제된 슬라이드가 activeIndex "앞"이면 한 칸 앞으로 보정
+            else if (removedIndex !== -1 && removedIndex < swiper.activeIndex) {
+                swiper.slideTo(swiper.activeIndex - 1, 0, false);
+            }
+            setActiveIndex(swiper.activeIndex);
         }
-        prevLenRef.current = quizList.length; // 다음 비교에 사용
-    }, [quizList.length, swiper]);
+
+        // 다음 비교를 위해 현재 id 목록 저장
+        prevIdsRef.current = currIds;
+    }, [quizList, swiper]); // quizList 전체를 의존성에 넣어야 순서 변경도 감지
     /* ── ③ 렌더링 ───────────────────────────────────────────────── */
     return (
         <Main>
@@ -146,7 +162,7 @@ export default function TodayQuizView({
             ) : (
                 <NoQuiz
                     clear={clear}
-                    mainTxt={clear ? '오늘의 퀴즈를 모두 풀었어요' : '아직 우려낼 지식이 없어요'}
+                    mainTxt={clear ? '오늘의 퀴즈를 모두 풀었어요' : '지금은 우려낼 지식이 없어요'}
                     subtxt={clear ? '오답노트로 가기' : '+버튼으로 새로운 지식 추가하기'}
                 />
             )}
