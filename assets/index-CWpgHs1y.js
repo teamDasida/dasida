@@ -481,7 +481,7 @@ Please change the parent <Route path="${$}"> to <Route path="${$==="/"?"*":`${$}
     & > input {
         border-radius: var(--Radius-1, 4px);
         background: var(--Colors-blue-0, #dcf2fe);
-        width: ${t=>t.$length?`calc(${t.$length} * 25px)`:"50px"};
+        width: ${t=>t.$length?`calc(${t.$length} * 40px)`:"50px"};
         height: 24px;
         box-sizing: border-box;
         line-height: 24px;
