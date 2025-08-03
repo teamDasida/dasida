@@ -13,6 +13,7 @@ interface Props {
     onKnowledgeClick: () => void;
     onKnowledgeDetailClick: (id: number) => void;
     onSubmitAnswer: (quizId: number, answer: string, dayType: number) => void;
+    hasRegisteredKnowledge: boolean;
 }
 
 export default function TodayQuizView({
@@ -21,6 +22,7 @@ export default function TodayQuizView({
     onKnowledgeClick,
     onKnowledgeDetailClick,
     onSubmitAnswer,
+    hasRegisteredKnowledge,
 }: Props) {
     /* ── ① 입력·힌트·스와이프 상태 ─────────────────────────────── */
     const [answers, setAnswers] = useState<Record<number, string>>({});
@@ -51,12 +53,18 @@ export default function TodayQuizView({
 
     const handleSubmit = (e: React.FormEvent, quizId: number, dayType: number) => {
         e.preventDefault();
-        onSubmitAnswer(quizId, answers[quizId] ?? '', dayType);
+        onSubmitAnswer(quizId, answers[quizId].trim() ?? '', dayType);
     };
 
     const handleHintClick = (quizId: number) => {
         setVisibleHints((p) => ({ ...p, [quizId]: true }));
         setTimeout(() => setVisibleHints((p) => ({ ...p, [quizId]: false })), 5000);
+    };
+
+    const renderText = () => {
+        if (clear) return '오늘의 퀴즈를 모두 풀었어요';
+        if (!hasRegisteredKnowledge) return '아직 우려낼 지식이 없어요';
+        return '오늘은 복습할 지식이 없어요';
     };
 
     /* ── ② 정답 맞히면 0.5초 뒤 다음 슬라이드 ─────────────────── */
@@ -162,7 +170,7 @@ export default function TodayQuizView({
             ) : (
                 <NoQuiz
                     clear={clear}
-                    mainTxt={clear ? '오늘의 퀴즈를 모두 풀었어요' : '지금은 우려낼 지식이 없어요'}
+                    mainTxt={renderText()}
                     subtxt={clear ? '오답노트로 가기' : '+버튼으로 새로운 지식 추가하기'}
                 />
             )}

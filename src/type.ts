@@ -16,6 +16,7 @@ export interface Knowledge {
 }
 
 export interface DataStructure {
+    hasRegisteredKnowledge:boolean;
     quizzes: Quiz[];
     knowledges: Knowledge[];
 }

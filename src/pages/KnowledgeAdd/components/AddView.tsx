@@ -1,6 +1,6 @@
 import { EditorContainer, Main } from '../../../style/GlobalStyle';
 import TuiEditor from './TuiEditor';
-import { TitleInput, SubmitButton } from '../styles';
+import { TitleInput, SubmitButton, Counter } from '../styles';
 import Spinner from '../../../components/Loading/Spinner';
 
 // AddView에서 사용할 props의 타입 정의
@@ -10,6 +10,8 @@ export interface AddViewProps {
     handleEditorChange: (newContent: string) => void;
     handleSubmit: () => void;
     isLoading: boolean;
+    charCount: number;
+    charLimit: number;
 }
 
 export default function AddView({
@@ -18,7 +20,10 @@ export default function AddView({
     handleEditorChange,
     handleSubmit,
     isLoading,
+    charCount,
+    charLimit,
 }: AddViewProps) {
+    const exceeded = charCount > charLimit;
     return (
         <>
             {isLoading && <Spinner />}
@@ -38,6 +43,9 @@ export default function AddView({
                         height="400px"
                         onChange={handleEditorChange}
                     />
+                    <Counter $exceeded={exceeded}>
+                        {charCount}/{charLimit}
+                    </Counter>
                     <SubmitButton onClick={handleSubmit}>전송</SubmitButton>
                 </EditorContainer>
             </Main>

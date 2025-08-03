@@ -13,7 +13,7 @@ export default function AddContainer() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-
+    const [charCount, setCharCount] = useState(0);
     /* ----------------------------------------------------------
      * 1) 푸시 토큰 발급 & 서버 저장
      * -------------------------------------------------------- */
@@ -33,13 +33,19 @@ export default function AddContainer() {
             console.error('[FCM] 토큰 저장 실패:', e);
         }
     };
-
+    const getNonWhitespaceLength = (s: string) => s.replace(/\s/g, '').length;
     /* ----------------------------------------------------------
      * 2) 게시글 전송
      * -------------------------------------------------------- */
     const handleSubmit = async () => {
         if (!title.trim() || !content.trim()) {
             alert('제목과 내용을 입력해주세요.');
+            return;
+        }
+        const effectiveLength = getNonWhitespaceLength(content);
+
+        if (effectiveLength > 600) {
+            alert(`600자 까지만 등록이 가능합니다!`); // 600자 초과면 막음
             return;
         }
 
@@ -61,7 +67,9 @@ export default function AddContainer() {
      * 3) 에디터 내용 500자 제한
      * -------------------------------------------------------- */
     const onContentChange = (val: string) => {
-        setContent(val.slice(0, 500));
+        setContent(val);
+        setCharCount(val.replace(/\s/g, '').length); // 공백 제외 자수 계산
+        // setContent(val.slice(0, 500));
     };
 
     return (
@@ -71,6 +79,8 @@ export default function AddContainer() {
             handleEditorChange={onContentChange}
             handleSubmit={handleSubmit}
             isLoading={isLoading}
+            charCount={charCount} // ⬅️ 추가
+            charLimit={600} // ⬅️ 추가
         />
     );
 }
