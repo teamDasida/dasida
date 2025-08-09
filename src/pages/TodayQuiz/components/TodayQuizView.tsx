@@ -6,6 +6,7 @@ import { Swiper as SwiperInstance } from 'swiper';
 import 'swiper/css';
 import NoQuiz from '../../../components/NoQuiz/NoQuiz';
 import { Knowledge, Quiz } from '../../../type'; // KnowledgeType은 알아서 정의
+import useMainQuizStore from '../../../store/useMainQuizStore';
 
 interface Props {
     quizList: Quiz[]; // ← prop 이름·타입 변경
@@ -13,7 +14,6 @@ interface Props {
     onKnowledgeClick: () => void;
     onKnowledgeDetailClick: (id: number) => void;
     onSubmitAnswer: (quizId: number, answer: string, dayType: number) => void;
-    hasRegisteredKnowledge: boolean;
 }
 
 export default function TodayQuizView({
@@ -22,8 +22,9 @@ export default function TodayQuizView({
     onKnowledgeClick,
     onKnowledgeDetailClick,
     onSubmitAnswer,
-    hasRegisteredKnowledge,
 }: Props) {
+    const mainQuiz = useMainQuizStore((s) => s.mainQuiz);
+    const hasRegisteredKnowledge = !!mainQuiz?.hasRegisteredKnowledge;
     /* ── ① 입력·힌트·스와이프 상태 ─────────────────────────────── */
     const [answers, setAnswers] = useState<Record<number, string>>({});
     const [visibleHints, setVisibleHints] = useState<Record<number, boolean>>({});

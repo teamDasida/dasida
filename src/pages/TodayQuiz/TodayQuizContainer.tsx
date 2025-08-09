@@ -9,7 +9,7 @@ export default function TodayQuizContainer() {
     const queryClient = useQueryClient();
 
     /** Zustand */
-    const { mainQuiz, setMainQuiz, hasRegisteredKnowledge } = useMainQuizStore();
+    const { mainQuiz, setMainQuiz } = useMainQuizStore();
    
 
     /* ── 네비게이션 ─────────────────────────────────────────────── */
@@ -64,7 +64,7 @@ export default function TodayQuizContainer() {
             onKnowledgeClick={handleKnowledgeClick}
             onKnowledgeDetailClick={handleKnowledgeDetailClick}
             onSubmitAnswer={handleSubmitAnswer}
-            hasRegisteredKnowledge={hasRegisteredKnowledge}
+          
         />
     );
 }

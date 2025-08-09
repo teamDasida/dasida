@@ -10,10 +10,9 @@ type SetStateAction<T> = T | ((prev: T) => T);
 interface StoreState {
     mainQuiz: DataStructure | null;
     wrongAnswerNotes: WrongAnswerNote[];
-    hasRegisteredKnowledge: boolean;
+
     setMainQuiz: (action: SetStateAction<DataStructure | null>) => void;
-    updateMainQuiz: (partial: Partial<DataStructure>) => void; // 부분 업데이트
-    setHasRegisteredKnowledge: (flag: boolean) => void;
+    updateMainQuiz: (partial: Partial<DataStructure>) => void;
     setWrongAnswerNotes: (notes: WrongAnswerNote[]) => void;
 }
 
@@ -25,32 +24,24 @@ const defaultDataStructure = (overrides?: Partial<DataStructure>): DataStructure
 });
 
 const useMainQuizStore = create<StoreState>()(
-    persist<StoreState>(
+    persist(
         (set) => ({
             mainQuiz: null,
             wrongAnswerNotes: [],
-            hasRegisteredKnowledge: false,
+
             setMainQuiz: (action) =>
-                set((state) => {
-                    const next = typeof action === 'function' ? action(state.mainQuiz) : action;
-                    return { mainQuiz: next };
-                }),
+                set((state) => ({
+                    mainQuiz: typeof action === 'function' ? action(state.mainQuiz) : action,
+                })),
+
             updateMainQuiz: (partial) =>
-                set((state) => {
-                    const base = state.mainQuiz ?? defaultDataStructure();
-                    return { mainQuiz: { ...base, ...partial } };
-                }),
-            setHasRegisteredKnowledge: (flag) =>
-                set((state) => {
-                    const base = state.mainQuiz ?? defaultDataStructure();
-                    return { mainQuiz: { ...base, hasRegisteredKnowledge: flag } };
-                }),
+                set((state) => ({
+                    mainQuiz: { ...(state.mainQuiz ?? defaultDataStructure()), ...partial },
+                })),
+
             setWrongAnswerNotes: (notes) => set({ wrongAnswerNotes: notes }),
         }),
-        {
-            name: 'myStore',
-            storage: createJSONStorage(() => sessionStorage),
-        }
+        { name: 'myStore', storage: createJSONStorage(() => sessionStorage) }
     )
 );
 
