@@ -49,24 +49,34 @@ function MainLayout() {
         refetchOnMount: 'always', // 컴포넌트 마운트 때마다 재요청
     });
 
+    const getMsUntilMidnight = () => {
+        const now = new Date();
+        const midnight = new Date();
+        midnight.setHours(24, 0, 0, 0);
+        return midnight.getTime() - now.getTime();
+    };
+
+    const today = new Date().toDateString();
+    const msUntilMidnight = getMsUntilMidnight();
+
     const {
         data: homeData,
         isLoading: homeLoading,
         isError: homeError,
     } = useQuery({
-        queryKey: ['home'],
+        queryKey: ['home', today],
         queryFn: fetchHomeData,
         enabled: !!isSessionValid, // 세션 유효할 때만
         // ── 신선도/캐시 보존 ──
-        staleTime: ONE_DAY, // 24시간 동안은 fresh
+        staleTime: msUntilMidnight, // 자정이 되면 stale 처리
         gcTime: ONE_DAY * 2, // 구독 끊겨도 캐시는 2일 보관(선택)
 
         // ── 자동 재조회(폴링) ──
-        refetchInterval: ONE_DAY, // 24시간마다 한 번 자동 재조회
+        refetchInterval: msUntilMidnight, // 자정에 맞춰 재조회
         refetchIntervalInBackground: true, // 백그라운드(비활성 탭)에서도 수행
 
         // ── 유저가 돌아왔을 때 ──
-        // 아래 옵션들은 "stale일 때"만 트리거 → 24시간 넘겨 stale이면 즉시 재조회
+        // 아래 옵션들은 "stale일 때"만 트리거 → 자정 이후 stale이면 즉시 재조회
         refetchOnMount: true,
         refetchOnWindowFocus: true,
         refetchOnReconnect: true,
