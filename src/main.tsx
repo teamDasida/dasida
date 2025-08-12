@@ -41,18 +41,11 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 // --- 서비스 워커 등록 코드 시작 ---
 // 개발 환경에서는 서비스 워커가 빌드되지 않은 파일을 캐시하려 시도하여 오류가 발생할 수 있습니다.
 // 따라서, 프로덕션 빌드 (배포 시)에서만 서비스 워커를 등록하도록 조건을 추가하는 것이 좋습니다.
-if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker
-            .register('/service-worker.js')
-            .then((registration) => {
-                console.log('SW registered: ', registration);
-            })
-            .catch((registrationError) => {
-                console.log('SW registration failed: ', registrationError);
-            });
-    });
-}
+// 개발 환경에서는 서비스 워커가 빌드되지 않은 파일을 캐시하려 시도하여 오류가 발생할 수 있습니다.
+// 따라서, 프로덕션 빌드 (배포 시)에서만 서비스 워커를 등록하도록 조건을 추가하는 것이 좋습니다.
+
+// Vite PWA 플러그인이 `registerSW.js`를 자동으로 삽입하여 서비스 워커를 등록합니다.
+// 중복 등록을 피하기 위해 별도의 수동 등록 코드를 제거했습니다.
 // --- 서비스 워커 등록 코드 끝 ---
 // --- 서비스 워커 등록 코드 추가 끝 ---
 // // router.tsx (또는 index.tsx, main.tsx 등 라우터를 정의한 파일)
