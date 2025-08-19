@@ -22,6 +22,8 @@ function MainLayout() {
     const isStandalone = useIsStandalone();
     const { setMainQuiz, setWrongAnswerNotes } = useMainQuizStore();
 
+    const [todayKey, setTodayKey] = useState(() => new Date().toDateString());
+
     // 최소 로딩 시간을 위한 상태 (1.5초 이상 로딩 애니메이션을 보여줌)
     const [minTimePassed, setMinTimePassed] = useState(false);
     useEffect(() => {
@@ -56,7 +58,27 @@ function MainLayout() {
         return midnight.getTime() - now.getTime();
     };
 
-    const today = new Date().toDateString();
+    useEffect(() => {
+        const timeout = setTimeout(
+            () => setTodayKey(new Date().toDateString()),
+            getMsUntilMidnight()
+        );
+        return () => clearTimeout(timeout);
+    }, [todayKey]);
+
+    useEffect(() => {
+        const handleVisibility = () => {
+            if (document.visibilityState === 'visible') {
+                const current = new Date().toDateString();
+                if (current !== todayKey) {
+                    setTodayKey(current);
+                }
+            }
+        };
+        document.addEventListener('visibilitychange', handleVisibility);
+        return () => document.removeEventListener('visibilitychange', handleVisibility);
+    }, [todayKey]);
+
     const msUntilMidnight = getMsUntilMidnight();
 
     const {
@@ -64,7 +86,7 @@ function MainLayout() {
         isLoading: homeLoading,
         isError: homeError,
     } = useQuery({
-        queryKey: ['home', today],
+        queryKey: ['home', todayKey],
         queryFn: fetchHomeData,
         enabled: !!isSessionValid, // 세션 유효할 때만
         // ── 신선도/캐시 보존 ──
