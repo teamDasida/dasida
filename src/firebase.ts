@@ -2,6 +2,7 @@
 import { initializeApp, type FirebaseOptions, type FirebaseApp } from 'firebase/app';
 
 import { getMessaging, type Messaging, getToken, onMessage, type MessagePayload } from 'firebase/messaging';
+import axiosInstance from './api/axios';
 
 /* ------------------------------------------------------------------ */
 /* 1. Firebase 초기화                                                 */
@@ -71,7 +72,31 @@ export async function getFcmToken(): Promise<string | undefined> {
 }
 
 /* ------------------------------------------------------------------ */
-/* 4. 포그라운드 메시지 리스너                                         */
+/* 4. 토큰 저장 및 서버 전송                                          */
+/* ------------------------------------------------------------------ */
+const FCM_TOKEN_KEY = 'fcmToken';
+
+export async function registerPushToken(): Promise<void> {
+    if (!PUSH_AVAILABLE) return;
+
+    const currentToken = await getFcmToken();
+    if (!currentToken) return;
+
+    const storedToken = localStorage.getItem(FCM_TOKEN_KEY);
+    if (storedToken === currentToken) return;
+
+    localStorage.setItem(FCM_TOKEN_KEY, currentToken);
+
+    try {
+        await axiosInstance.post('/token', { token: currentToken });
+        console.debug('[FCM] 토큰 저장 완료');
+    } catch (e) {
+        console.error('[FCM] 토큰 저장 실패:', e);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 5. 포그라운드 메시지 리스너                                         */
 /* ------------------------------------------------------------------ */
 export function onMessageListener(): Promise<MessagePayload> {
     return new Promise((resolve) => {

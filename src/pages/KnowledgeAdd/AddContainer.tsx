@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import AddView from './components/AddView';
-import axiosInstance from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { getFcmToken, PUSH_AVAILABLE } from '../../firebase'; // ★ 새 래퍼 함수
+import axiosInstance from '../../api/axios';
+import { registerPushToken } from '../../firebase';
 
 export default function AddContainer() {
     const navigate = useNavigate();
@@ -14,28 +14,9 @@ export default function AddContainer() {
     const [content, setContent] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [charCount, setCharCount] = useState(0);
-    /* ----------------------------------------------------------
-     * 1) 푸시 토큰 발급 & 서버 저장
-     * -------------------------------------------------------- */
-    const registerPushToken = async () => {
-        if (!PUSH_AVAILABLE) return;
-
-        const token = await getFcmToken(); // ★ 권한 요청·SW 등록 포함
-        if (!token) {
-            console.warn('[FCM] 토큰을 발급받지 못했습니다.');
-            return;
-        }
-
-        try {
-            await axiosInstance.post('/token', { token });
-            console.debug('[FCM] 토큰 저장 완료');
-        } catch (e) {
-            console.error('[FCM] 토큰 저장 실패:', e);
-        }
-    };
     const getNonWhitespaceLength = (s: string) => s.replace(/\s/g, '').length;
     /* ----------------------------------------------------------
-     * 2) 게시글 전송
+     * 1) 게시글 전송
      * -------------------------------------------------------- */
     const handleSubmit = async () => {
         if (!title.trim() || !content.trim()) {
