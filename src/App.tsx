@@ -1,5 +1,4 @@
 // src/App.tsx
-import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 
@@ -11,12 +10,10 @@ import Detail from './pages/KnowledgeDetail/Detail';
 import KnowledgeListContainer from './pages/KnowledgeList/KnowledgeListContainer';
 import NotFound from './pages/NotFound/NotFound';
 import MainLayout from './layouts/MainLayout';
-import { registerPushToken } from './firebase';
+import useAutoSyncFcmToken from './hooks/useAutoSyncFcmToken';
 
 function App() {
-    useEffect(() => {
-        void registerPushToken();
-    }, []);
+    useAutoSyncFcmToken();
 
     return (
         <Routes>

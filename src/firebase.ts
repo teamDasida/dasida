@@ -23,9 +23,13 @@ export const messaging: Messaging = getMessaging(app);
 /* ------------------------------------------------------------------ */
 /* 2. 환경 감지 유틸                                                  */
 /* ------------------------------------------------------------------ */
-// ★ iOS Safari에서 ‘홈 화면 추가’(standalone)인지 체크
-const isIOSStandalone = (): boolean =>
-    /iPhone|iPad|iPod/.test(navigator.userAgent) && window.matchMedia('(display-mode: standalone)').matches;
+// ★ PWA(standalone) 여부
+export const isStandalone = (): boolean =>
+    window.matchMedia('(display-mode: standalone)').matches;
+
+// ★ iOS Safari에서 ‘홈 화면 추가’(standalone)인지 체크 (legacy export)
+export const isIOSStandalone = (): boolean =>
+    /iPhone|iPad|iPod/.test(navigator.userAgent) && isStandalone();
 
 // ★ 푸시 API 지원 여부
 export const PUSH_AVAILABLE = 'serviceWorker' in navigator && 'PushManager' in window;
@@ -34,30 +38,28 @@ export const PUSH_AVAILABLE = 'serviceWorker' in navigator && 'PushManager' in w
 /* 3. 토큰 요청                                                        */
 /* ------------------------------------------------------------------ */
 /**
- * 1) 환경 체크 → 2) 권한 요청 → 3) Service Worker 등록 → 4) FCM 토큰 반환
- * ❌ 조건 미충족 시 undefined 반환
+ * Service Worker가 준비된 뒤 FCM 토큰을 반환한다.
+ * 권한 요청은 외부에서 수행해야 하며, 권한이 없으면 undefined를 반환한다.
  */
 export async function getFcmToken(): Promise<string | undefined> {
     try {
-        /* 1) 플랫폼 제약 --------------------------------------------------- */
+        // 1) 환경 제약 --------------------------------------------------------
         if (!PUSH_AVAILABLE) {
             console.warn('[FCM] Push API not supported in this browser.');
             return undefined;
         }
-        if (/iPhone|iPad|iPod/.test(navigator.userAgent) && !isIOSStandalone()) {
-            console.warn('[FCM] iOS에서는 홈 화면에 추가된 PWA에서만 Web Push가 가능합니다.');
+        const isMobile = /iPhone|iPad|iPod|Android/.test(navigator.userAgent);
+        if (isMobile && !isStandalone()) {
+            console.warn('[FCM] 모바일에서는 홈 화면에 추가된 PWA에서만 Web Push가 가능합니다.');
             return undefined;
         }
+        if (Notification.permission !== 'granted') return undefined;
 
-        /* 2) 권한 요청 ----------------------------------------------------- */
-        const permission = await Notification.requestPermission();
-        if (permission !== 'granted') return undefined;
-
-        /* 3) Service Worker 등록 ----------------------------------------- */
-        // public/ 루트에 firebase-messaging-sw.js 파일이 있어야 합니다.
+        // 2) Service Worker 등록 및 준비 ------------------------------------
         const swReg = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        await navigator.serviceWorker.ready; // SW가 활성화될 때까지 대기
 
-        /* 4) 토큰 발급 ----------------------------------------------------- */
+        // 3) 토큰 발급 -------------------------------------------------------
         const token = await getToken(messaging, {
             vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
             serviceWorkerRegistration: swReg,
@@ -77,7 +79,7 @@ export async function getFcmToken(): Promise<string | undefined> {
 const FCM_TOKEN_KEY = 'fcmToken';
 
 export async function registerPushToken(): Promise<void> {
-    if (!PUSH_AVAILABLE) return;
+    if (!PUSH_AVAILABLE || Notification.permission !== 'granted') return;
 
     const currentToken = await getFcmToken();
     if (!currentToken) return;
@@ -96,7 +98,22 @@ export async function registerPushToken(): Promise<void> {
 }
 
 /* ------------------------------------------------------------------ */
-/* 5. 포그라운드 메시지 리스너                                         */
+/* 5. 권한 요청 (사용자 제스처 내에서 호출)                             */
+/* ------------------------------------------------------------------ */
+export async function enablePush(): Promise<void> {
+    if (!PUSH_AVAILABLE) return;
+    try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+            await registerPushToken();
+        }
+    } catch (err) {
+        console.error('[FCM] enable push failed:', err);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 6. 포그라운드 메시지 리스너                                         */
 /* ------------------------------------------------------------------ */
 export function onMessageListener(): Promise<MessagePayload> {
     return new Promise((resolve) => {
