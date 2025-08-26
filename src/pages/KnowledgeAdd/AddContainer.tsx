@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 
 import axiosInstance from '../../api/axios';
-import { registerPushToken } from '../../firebase';
+import { enablePush } from '../../firebase';
 
 export default function AddContainer() {
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ export default function AddContainer() {
             const { data } = await axiosInstance.post('/knowledge', { title, content });
             queryClient.invalidateQueries({ queryKey: ['home'] });
 
-            if (data.needPushPermission) await registerPushToken(); // ★ 조건부 호출
+            if (data.needPushPermission) await enablePush(); // ★ 조건부 호출
             navigate('/'); // 메인으로 이동
         } catch (err) {
             console.error('게시글 전송 오류:', err);
