@@ -80,7 +80,7 @@ export const UserInfo = styled.div`
     }
 `;
 
-export const Main = styled.main<{ $paddingTop?: string }>`
+export const Main = styled.main<{ $paddingTop?: boolean }>`
     /* 화면 전체 중앙 정렬 */
     margin: 0 auto;
 
@@ -99,8 +99,10 @@ export const Main = styled.main<{ $paddingTop?: string }>`
     @media (max-width: 768px) {
         width: 100%;
         max-width: 100%;
-        padding: 0 20px 110px; /* 예시로 좌우 여백 추가 */
-        padding-top: ${(props) => (props.$paddingTop ? props.$paddingTop : '70px')};
+        padding: 0 20px 90px; /* 예시로 좌우 여백 추가 */
+        padding: ${({ $paddingTop }) => ($paddingTop ? '71px 20px 90px' : '0 20px 90px')};
+        height: 100vh;
+        overflow-y: auto;
     }
 `;
 export const MbMain = styled.main`
@@ -122,14 +124,13 @@ export const center = css`
 `;
 
 export const SubTitle = styled.h2`
-    font-family: 'GeekbleMalang2WOFF2';
     font-weight: 400;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
     /* Heading/H2/B */
-    font-size: 20px;
+    font-size: 26px;
     margin-bottom: 24px;
     cursor: pointer;
 `;
@@ -141,17 +142,15 @@ export const EditorContainer = styled.div`
     }
 `;
 
-export const ListTitle = styled.h2<{ $hideTitle?: boolean }>`
-    font-family: 'GeekbleMalang2WOFF2';
-    font-weight: 400;
-    margin: 122px 0 24px;
+export const ListTitle = styled.h2`
+    font-weight: 700;
+    margin: 122px auto 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     color: var(--Colors-Neutral-1000, #1a1f1f);
     flex-wrap: wrap;
-    font-size: 20px;
-    transform: ${(props) => (props.$hideTitle ? ' translateY(-43px)' : 'translateY(0)')};
+    font-size: 26px;
     transition: transform 0.5s;
     background: var(--bg, #faf9f6);
     & > button {
@@ -183,8 +182,8 @@ export const ListTitle = styled.h2<{ $hideTitle?: boolean }>`
         &::before {
             display: block;
             content: '';
-            width: 12px;
-            height: 12px;
+            width: 20px;
+            height: 20px;
             background: 50% 50% url('/img/search_m.svg') no-repeat;
             background-size: contain;
             margin-right: 6px;
@@ -202,17 +201,17 @@ export const ListTitle = styled.h2<{ $hideTitle?: boolean }>`
         }
     }
     @media (max-width: 768px) {
-        position: fixed;
-        z-index: 2;
-        left: 0;
-        top: 0;
-        padding: 23px 20px 18px;
+        /* position: fixed; */
+        /* z-index: 2; */
+        /* left: 0; */
+        /* top: 0; */
+        padding: 23px 0px 18px;
         /* background-color: #fff; */
         margin: 0;
         display: block;
         width: 100%;
-        transform: ${(props) => (props.$hideTitle ? ' translateY(27px)' : 'translateY(70px)')};
-
+        position: sticky;
+        top: 0;
         & > div.searchInput {
             display: flex;
         }
@@ -262,24 +261,36 @@ export const MyList = styled.ul<{ $width?: string }>`
 interface HintContainerProps {
     /** 중앙 정렬 여부 (transient prop) */
     $center?: boolean;
+    $show: boolean;
+    $mb?:string;
 }
 
 export const HintContainer = styled.div<HintContainerProps>`
-    position: absolute;
     z-index: 5;
-
-    /* $center 값에 따라 위치‧크기 조정 */
-    left: ${({ $center }) => ($center ? '50%' : '0')};
-    top: ${({ $center }) => ($center ? '100px;' : 'calc(100% + 34px)')};
-    transform: ${({ $center }) => ($center ? 'translateX(-50%)' : 'none')};
     width: ${({ $center }) => ($center ? 'auto' : '100%')};
 
-    padding: 16px;
+    /* ⬇️ 애니메이션 핵심 */
+    overflow: hidden;
+    max-height: ${({ $show }) => ($show ? '999px' : '0')}; /* 콘텐츠 높이보다 넉넉히 */
+    opacity: ${({ $show }) => ($show ? 1 : 0)};
+    transform: translateY(${({ $show }) => ($show ? '0' : '-6px')});
+    margin-bottom: ${({ $show, $mb }) => ($show ? ($mb ?? '60px') : '0')};
+
+    pointer-events: ${({ $show }) => ($show ? 'auto' : 'none')};
+
+    transition: max-height 280ms ease, opacity 220ms ease, transform 280ms ease, margin-bottom 280ms ease,
+        padding 180ms ease, border-width 180ms ease;
+
+    /* ✅ 숨김 상태에서 공간 0 */
+    padding: ${({ $show }) => ($show ? '16px' : '0')};
     border-radius: var(--Radius-3, 12px);
-    border: 1px solid var(--Colors-Primary-300, #a6c2a4);
+    border-style: solid;
+    border-color: var(--Colors-Primary-300, #a6c2a4);
+    border-width: ${({ $show }) => ($show ? '1px' : '0')};
     background: var(--Colors-Secondary-100, #f5f5e6);
     box-shadow: 0px 16px 32px -12px rgba(95, 95, 88, 0.05);
 
+    /* 제목 */
     & > p {
         display: flex;
         align-items: center;
@@ -297,13 +308,14 @@ export const HintContainer = styled.div<HintContainerProps>`
             background-size: contain;
             margin-right: 4px;
         }
+    }
 
-        & > span {
-            display: block;
-            color: var(--Colors-Neutral-1000, #1a1f1f);
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 21px;
-        }
+    /* 본문 (← 기존 코드에선 p 안쪽으로 들어가 있었는데 실제 마크업은 p의 형제임) */
+    & > span {
+        display: block;
+        color: var(--Colors-Neutral-1000, #1a1f1f);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 21px;
     }
 `;

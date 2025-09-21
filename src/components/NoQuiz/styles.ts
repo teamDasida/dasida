@@ -7,7 +7,7 @@ export const NoQuizContainer = styled.div<{ $clear?: boolean }>`
     height: calc(100vh - 71px);
 
     @media (max-width: 768px) {
-        height: calc(100vh - 76px);
+        height: calc(100vh - 147px);
         span {
             font-size: 16px;
             b {

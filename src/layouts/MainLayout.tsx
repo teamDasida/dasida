@@ -1,8 +1,8 @@
 // src/layouts/MainLayout.tsx
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { matchPath, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useIsMobile from '../hooks/useIsMobile';
 import UserHeader from '../components/UserHeader/UserHeader';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { DataStructure } from '../type';
 import { fetchHomeData, fetchWrongAnswerNotes } from '../api/quizApi';
@@ -59,10 +59,7 @@ function MainLayout() {
     };
 
     useEffect(() => {
-        const timeout = setTimeout(
-            () => setTodayKey(new Date().toDateString()),
-            getMsUntilMidnight()
-        );
+        const timeout = setTimeout(() => setTodayKey(new Date().toDateString()), getMsUntilMidnight());
         return () => clearTimeout(timeout);
     }, [todayKey]);
 
@@ -114,6 +111,8 @@ function MainLayout() {
         enabled: !!isSessionValid, // 핵심!
     });
     const handleAddBtn = () => {
+        // navigate('/knowledge/add');
+
         if (!homeData?.hasRegisteredKnowledge) {
             // if (!isStandalone && isMobile) {
             //     // 📱 모바일 브라우저이지만 아직 PWA 설치 안 함
@@ -134,6 +133,26 @@ function MainLayout() {
             navigate('/knowledge/add');
         }
     };
+
+    // 2) 헤더 노출 여부 계산 (컴포넌트 내부, 반환부 위에 추가)
+    const hideHeaderOnMobile = useMemo(() => {
+        if (!isMobile) return false;
+        const p = location.pathname;
+
+        const baseMatches =
+            matchPath({ path: '/knowledge', end: true }, p) !== null ||
+            matchPath({ path: '/knowledge/add', end: true }, p) !== null ||
+            matchPath({ path: '/wrong-answers', end: true }, p) !== null;
+
+        const detailMatch = matchPath({ path: '/knowledge/:id', end: true }, p) !== null;
+
+        return baseMatches || detailMatch;
+    }, [isMobile, location.pathname]);
+
+    const showHeader = useMemo(() => {
+        return location.pathname !== '/main' && !hideHeaderOnMobile;
+    }, [location.pathname, hideHeaderOnMobile]);
+
     // 스크롤 상단으로
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -175,7 +194,7 @@ function MainLayout() {
 
     return (
         <>
-            {location.pathname !== '/main' && <UserHeader isMobile={isMobile} />}
+            {showHeader && <UserHeader isMobile={isMobile} />}
             <Outlet />
             {location.pathname !== '/main' && <AddBtn onConfirm={handleAddBtn} />}
             {isMobile && location.pathname !== '/main' && <BottomBtns />}

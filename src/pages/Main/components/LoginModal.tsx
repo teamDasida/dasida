@@ -11,11 +11,11 @@ export default function LoginModal({ onClose }: LoginModalProps) {
     const { checkEnable } = useEnableCheck();
     const handleClickLogin = useKakaoLogin();
     const [loading, setLoading] = useState(false);
+    
     const handleLogin = async (e: React.MouseEvent) => {
         if (loading) return;
         setLoading(true);
         const res = await checkEnable();
-
         if (res && res !== 'error') handleClickLogin(e);
         else if (res === 'error') alert('잠시후 다시 시도해주세요');
         else alert('모집 인원을 다 채웠어요 ㅜㅜ');

@@ -5,15 +5,16 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperInstance } from 'swiper';
 import 'swiper/css';
 import NoQuiz from '../../../components/NoQuiz/NoQuiz';
-import { Knowledge, Quiz } from '../../../type'; // KnowledgeType은 알아서 정의
+import { Knowledge, Quiz } from '../../../type';
 import useMainQuizStore from '../../../store/useMainQuizStore';
 
 interface Props {
-    quizList: Quiz[]; // ← prop 이름·타입 변경
+    quizList: Quiz[];
     knowledges: Knowledge[];
     onKnowledgeClick: () => void;
     onKnowledgeDetailClick: (id: number) => void;
     onSubmitAnswer: (quizId: number, answer: string, dayType: number) => void;
+    isMobile: boolean;
 }
 
 export default function TodayQuizView({
@@ -22,18 +23,25 @@ export default function TodayQuizView({
     onKnowledgeClick,
     onKnowledgeDetailClick,
     onSubmitAnswer,
+    isMobile,
 }: Props) {
     const mainQuiz = useMainQuizStore((s) => s.mainQuiz);
     const hasRegisteredKnowledge = !!mainQuiz?.hasRegisteredKnowledge;
-    /* ── ① 입력·힌트·스와이프 상태 ─────────────────────────────── */
+
+    // 입력/힌트/스와이프 상태
     const [answers, setAnswers] = useState<Record<number, string>>({});
     const [visibleHints, setVisibleHints] = useState<Record<number, boolean>>({});
     const [swiper, setSwiper] = useState<SwiperInstance | null>(null);
     const [activeIndex, setActiveIndex] = useState(0);
+
     const handleInputChange = (quizId: number, v: string) => setAnswers((p) => ({ ...p, [quizId]: v }));
+
     const clear = quizList.length === 0 && knowledges.length > 0;
-    /** ① 이전 퀴즈 개수를 기억해 둘 ref */
-    const prevIdsRef = useRef<number[]>([]); // 이전 quizId 배열 저장
+    const activeQuiz = quizList[activeIndex];
+    const hasHint = !!(activeQuiz && visibleHints[activeQuiz.quizId]); // ← 현재 힌트 열렸는지
+
+    // 이전 퀴즈 id 목록 저장
+    const prevIdsRef = useRef<number[]>([]);
 
     const renderQuestion = (question: string, quizId: number) => {
         const parts = question.split('____');
@@ -54,12 +62,13 @@ export default function TodayQuizView({
 
     const handleSubmit = (e: React.FormEvent, quizId: number, dayType: number) => {
         e.preventDefault();
-        onSubmitAnswer(quizId, answers[quizId].trim() ?? '', dayType);
+        onSubmitAnswer(quizId, (answers[quizId] ?? '').trim(), dayType);
     };
 
+    // 힌트: 하나만 열리고 5초 뒤 자동 닫힘
     const handleHintClick = (quizId: number) => {
-        setVisibleHints((p) => ({ ...p, [quizId]: true }));
-        setTimeout(() => setVisibleHints((p) => ({ ...p, [quizId]: false })), 5000);
+        setVisibleHints({ [quizId]: true });
+        setTimeout(() => setVisibleHints({}), 5000);
     };
 
     const renderText = () => {
@@ -68,59 +77,44 @@ export default function TodayQuizView({
         return '오늘은 복습할 지식이 없어요';
     };
 
-    /* ── ② 정답 맞히면 0.5초 뒤 다음 슬라이드 ─────────────────── */
-    // View 안에서는 “슬라이드 이동만” 담당
-    /* ────────────────────────────────────────────────────────── */
-    /* 1️⃣  result==="correct" → 0.5 s 뒤 다음 슬라이드 이동       */
-    /* ────────────────────────────────────────────────────────── */
+    // 정답이면 0.5s 뒤 다음 슬라이드
     useEffect(() => {
         if (!swiper) return;
-
-        // 현재 슬라이드가 정답 처리된 경우
         if (quizList[activeIndex]?.result === 'correct') {
             const id = setTimeout(() => swiper.slideNext(), 500);
-            return () => clearTimeout(id); // cleanup
+            return () => clearTimeout(id);
         }
     }, [quizList, activeIndex, swiper]);
 
-    /* ────────────────────────────────────────────────────────── */
-    /* 2️⃣  원본 배열 길이가 줄어든 순간 인덱스 보정                */
-    /* ────────────────────────────────────────────────────────── */
+    // 원본 배열 길이 줄어들면 인덱스 보정
     useLayoutEffect(() => {
         if (!swiper) return;
 
-        // --- 1. DOM‑diff 이후 즉시 Swiper 내부 캐시 갱신 ---
-        swiper.update(); // 핵심! (updateSlides / updateSize 내부 호출)
+        swiper.update();
 
         const prevIds = prevIdsRef.current;
         const currIds = quizList.map((q) => q.quizId);
 
-        // --- 2. 삭제된 슬라이드가 존재하는지 확인 ---
         if (currIds.length < prevIds.length) {
-            // 어떤 id가 사라졌는지 찾기
             const removedId = prevIds.find((id) => !currIds.includes(id));
-            const removedIndex = prevIds.indexOf(removedId!);
+            const removedIndex = removedId !== undefined ? prevIds.indexOf(removedId) : -1;
 
-            // 2‑1. 현재 인덱스가 범위를 초과하면 마지막 슬라이드로
             if (swiper.activeIndex >= currIds.length) {
                 swiper.slideTo(Math.max(currIds.length - 1, 0), 0, false);
-            }
-            // 2‑2. 삭제된 슬라이드가 activeIndex "앞"이면 한 칸 앞으로 보정
-            else if (removedIndex !== -1 && removedIndex < swiper.activeIndex) {
+            } else if (removedIndex !== -1 && removedIndex < swiper.activeIndex) {
                 swiper.slideTo(swiper.activeIndex - 1, 0, false);
             }
             setActiveIndex(swiper.activeIndex);
         }
 
-        // 다음 비교를 위해 현재 id 목록 저장
         prevIdsRef.current = currIds;
-    }, [quizList, swiper]); // quizList 전체를 의존성에 넣어야 순서 변경도 감지
-    /* ── ③ 렌더링 ───────────────────────────────────────────────── */
+    }, [quizList, swiper]);
+
     return (
-        <Main>
+        <Main $paddingTop={isMobile}>
             {quizList.length ? (
                 <>
-                    <QuizContainer>
+                    <QuizContainer $hasHint={hasHint}>
                         <SubTitle>오늘의 퀴즈</SubTitle>
                         <Swiper
                             spaceBetween={30}
@@ -141,18 +135,20 @@ export default function TodayQuizView({
                                             </HelpBtn>
                                             <Days>{quiz.dayType}일차</Days>
 
-                                            {visibleHints[quiz.quizId] && (
-                                                <HintContainer>
-                                                    <p>Hint</p>
-                                                    <span>{quiz.hint}</span>
-                                                </HintContainer>
-                                            )}
+                                            {/* ⛔️ 슬라이드 내부 힌트 렌더링 제거 (바깥으로 이동) */}
                                         </QuizList>
                                     </form>
                                 </SwiperSlide>
                             ))}
                         </Swiper>
                     </QuizContainer>
+
+                    {/* ✅ 퀴즈 컨테이너 아래에 현재 활성 슬라이드의 힌트만 표시 */}
+
+                    <HintContainer $show={hasHint}>
+                        <p>Hint</p>
+                        <span>{activeQuiz.hint}</span>
+                    </HintContainer>
 
                     <SubTitle onClick={onKnowledgeClick}>
                         나의 지식 <img src="./img/arrow.svg" alt="" />

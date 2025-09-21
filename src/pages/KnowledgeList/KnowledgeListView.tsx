@@ -18,8 +18,7 @@ interface Props {
 
 export default function KnowledgeListView({
     items,
-    hideTitle,
-    isMobile,
+    // hideTitle,
     keyword,
     setKeyword,
     onItemClick,
@@ -27,8 +26,8 @@ export default function KnowledgeListView({
     isLoading,
 }: Props) {
     return (
-        <Main $paddingTop={isMobile ? `160px` : '0'}>
-            <ListTitle $hideTitle={hideTitle}>
+        <Main>
+            <ListTitle>
                 나의 지식
                 <div className="searchInput">
                     <input
@@ -43,10 +42,40 @@ export default function KnowledgeListView({
             <MyList>
                 {items.length ? (
                     items.map(({ id, title, createAt }) => (
-                        <li key={id} onClick={() => onItemClick(id)}>
-                            <p>{title}</p>
-                            <span>{new Date(createAt).toLocaleDateString()}</span>
-                        </li>
+                        <>
+                            <li key={id} onClick={() => onItemClick(id)}>
+                                <p>{title}</p>
+                                <span>{new Date(createAt).toLocaleDateString()}</span>
+                            </li>
+                            <li key={id} onClick={() => onItemClick(id)}>
+                                <p>{title}</p>
+                                <span>{new Date(createAt).toLocaleDateString()}</span>
+                            </li>
+                            <li key={id} onClick={() => onItemClick(id)}>
+                                <p>{title}</p>
+                                <span>{new Date(createAt).toLocaleDateString()}</span>
+                            </li>
+                            <li key={id} onClick={() => onItemClick(id)}>
+                                <p>{title}</p>
+                                <span>{new Date(createAt).toLocaleDateString()}</span>
+                            </li>
+                            <li key={id} onClick={() => onItemClick(id)}>
+                                <p>{title}</p>
+                                <span>{new Date(createAt).toLocaleDateString()}</span>
+                            </li>
+                            <li key={id} onClick={() => onItemClick(id)}>
+                                <p>{title}</p>
+                                <span>{new Date(createAt).toLocaleDateString()}</span>
+                            </li>
+                            <li key={id} onClick={() => onItemClick(id)}>
+                                <p>{title}</p>
+                                <span>{new Date(createAt).toLocaleDateString()}</span>
+                            </li>
+                            <li key={id} onClick={() => onItemClick(id)}>
+                                <p>{title}</p>
+                                <span>{new Date(createAt).toLocaleDateString()}</span>
+                            </li>
+                        </>
                     ))
                 ) : (
                     <NoQuiz mainTxt="추가한 지식이 없어요" />

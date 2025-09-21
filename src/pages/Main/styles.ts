@@ -100,8 +100,8 @@ export const KakaoBtn = styled.button<{ $mb?: boolean }>`
         $mb &&
         css`
             width: 90%;
-            left:50%;
-            transform:translateX(-50%);
+            left: 50%;
+            transform: translateX(-50%);
             position: absolute;
             bottom: 80px;
         `}
@@ -138,5 +138,30 @@ export const MbCharacterBox = styled.div`
             font-size: 16px;
             font-weight: 400;
         }
+    }
+`;
+
+export const InstallBtn = styled.button`
+    border-radius: var(--Radius-1, 4px);
+    background: #89AE86;
+    width: 100%;
+    height: 48px;
+    ${center}
+    color: var(--black, #121212);
+    font-size: 16px;
+
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    bottom: 80px;
+    &::before {
+        content: '';
+        display: block;
+        margin-right: 8px;
+        width: 14px;
+        height: 18px;
+        background: 50% 50% url('./img/arrow-down.svg') no-repeat;
+        background-size: contain;
     }
 `;

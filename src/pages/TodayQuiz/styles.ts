@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import { center, ellipsisStyle } from '../../style/GlobalStyle';
 
-export const QuizContainer = styled.div`
+export const QuizContainer = styled.div<{ $hasHint?: boolean }>`
     /* 화면 전체 중앙 정렬 */
-    margin: 157px 0 60px;
+    /* 힌트가 없을 때만 margin-bottom: 60px */
+    margin: 157px 0 ${(p) => (p.$hasHint ? '34px' : '60px')};
+
     @media (max-width: 768px) {
-        margin: 23px 0 40px;
+        margin: 23px 0 ${(p) => (p.$hasHint ? '40px' : '60px')};
     }
 `;
 
@@ -93,6 +95,7 @@ export const KnowledgeList = styled.ul`
         margin-right: 24px;
         width: calc(33.3333% - 16px);
         margin-bottom: 16px;
+        border-radius: 8px;
         &:nth-child(3n) {
             margin-right: 0;
         }

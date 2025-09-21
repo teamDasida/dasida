@@ -31,7 +31,7 @@ export default function IncorrectList() {
 
     return (
         <>
-            <Main $paddingTop={isMobile ? `132px` : '0'}>
+            <Main>
                 <ListTitle>
                     오답노트
                     {/* {!detail && (
@@ -53,19 +53,13 @@ export default function IncorrectList() {
                         {detail && selectedQuizId && (
                             <div>
                                 <p>
-                                    {wrongAnswerNotes.find((quiz) => quiz.quizId === selectedQuizId)?.quizText}
+                                    {wrongAnswerNotes.find((q) => q.quizId === selectedQuizId)?.quizText}
                                     <button onClick={handleShowAnswer}>클릭 해서 정답 보기</button>
-                                    {showAnswer && (
-                                        <HintContainer $center>
-                                            <p>
-                                                {
-                                                    wrongAnswerNotes.find((quiz) => quiz.quizId === selectedQuizId)
-                                                        ?.quizAnswer
-                                                }
-                                            </p>
-                                        </HintContainer>
-                                    )}
                                 </p>
+                                <HintContainer $center $show={showAnswer} $mb={'0px'}>
+                                    <p>{wrongAnswerNotes.find((q) => q.quizId === selectedQuizId)?.quizAnswer}</p>
+                                </HintContainer>
+
                                 <CloseBtn aria-label="닫기" onClick={() => setDetail(false)}>
                                     ✕
                                 </CloseBtn>

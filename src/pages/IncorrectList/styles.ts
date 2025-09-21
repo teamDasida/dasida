@@ -27,7 +27,7 @@ export const IncorrectBox = styled.div<{ $isMobile: boolean }>`
                 left: 0;
                 width: 100%;
                 z-index: 10;
-                height: calc(100vh - 76px);
+                height: calc(100vh - 160px);
                 overflow-y: auto;
             `}
 
@@ -58,6 +58,7 @@ export const IncorrectBox = styled.div<{ $isMobile: boolean }>`
 
 export const LearningDetail = styled.div`
     border-top: 1px solid var(--Colors-Neutral-200, #d0d5d5);
+    padding-top: 15px;
     p {
         height: 24px;
         line-height: 24px;
@@ -99,8 +100,8 @@ export const LearningDetail = styled.div`
             height: 24px;
             margin-right: 8px;
             flex-shrink: 0;
-            background-color:#c4d7c2;
-            border-radius:50%;
+            background-color: #c4d7c2;
+            border-radius: 50%;
         }
         & > .icon-wrap svg:first-child {
             display: block;

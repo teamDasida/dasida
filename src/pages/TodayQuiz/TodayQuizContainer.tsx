@@ -3,14 +3,15 @@ import TodayQuizView from './components/TodayQuizView';
 import useMainQuizStore from '../../store/useMainQuizStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postQuiz } from '../../api/postQuiz';
+import useIsMobile from '../../hooks/useIsMobile';
 
 export default function TodayQuizContainer() {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+    const isMobile = useIsMobile();
 
     /** Zustand */
     const { mainQuiz, setMainQuiz } = useMainQuizStore();
-   
 
     /* ── 네비게이션 ─────────────────────────────────────────────── */
     const handleKnowledgeClick = () => navigate('/knowledge');
@@ -64,7 +65,7 @@ export default function TodayQuizContainer() {
             onKnowledgeClick={handleKnowledgeClick}
             onKnowledgeDetailClick={handleKnowledgeDetailClick}
             onSubmitAnswer={handleSubmitAnswer}
-          
+            isMobile={isMobile}
         />
     );
 }
