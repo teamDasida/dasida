@@ -158,7 +158,7 @@ export default function TodayQuizView({
                             <li key={k.id} onClick={() => onKnowledgeDetailClick(k.id)}>
                                 <div>
                                     <p>{k.title}</p>
-                                    <span>{k.content}</span>
+                                    <span>{k.text}</span>
                                 </div>
                             </li>
                         ))}

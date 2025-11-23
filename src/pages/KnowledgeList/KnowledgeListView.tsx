@@ -47,34 +47,6 @@ export default function KnowledgeListView({
                                 <p>{title}</p>
                                 <span>{new Date(createAt).toLocaleDateString()}</span>
                             </li>
-                            <li key={id} onClick={() => onItemClick(id)}>
-                                <p>{title}</p>
-                                <span>{new Date(createAt).toLocaleDateString()}</span>
-                            </li>
-                            <li key={id} onClick={() => onItemClick(id)}>
-                                <p>{title}</p>
-                                <span>{new Date(createAt).toLocaleDateString()}</span>
-                            </li>
-                            <li key={id} onClick={() => onItemClick(id)}>
-                                <p>{title}</p>
-                                <span>{new Date(createAt).toLocaleDateString()}</span>
-                            </li>
-                            <li key={id} onClick={() => onItemClick(id)}>
-                                <p>{title}</p>
-                                <span>{new Date(createAt).toLocaleDateString()}</span>
-                            </li>
-                            <li key={id} onClick={() => onItemClick(id)}>
-                                <p>{title}</p>
-                                <span>{new Date(createAt).toLocaleDateString()}</span>
-                            </li>
-                            <li key={id} onClick={() => onItemClick(id)}>
-                                <p>{title}</p>
-                                <span>{new Date(createAt).toLocaleDateString()}</span>
-                            </li>
-                            <li key={id} onClick={() => onItemClick(id)}>
-                                <p>{title}</p>
-                                <span>{new Date(createAt).toLocaleDateString()}</span>
-                            </li>
                         </>
                     ))
                 ) : (

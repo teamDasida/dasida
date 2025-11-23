@@ -13,5 +13,5 @@ export const Title = styled.h1`
     text-align: center;
     padding: 43px;
     border-bottom: 1px solid #aaa;
-    font-family:GeekbleMalang2WOFF2;
+    /* font-family:GeekbleMalang2WOFF2; */
 `;

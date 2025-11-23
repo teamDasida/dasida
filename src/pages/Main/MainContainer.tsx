@@ -12,7 +12,8 @@ export default function MainContainer() {
 
     return (
         <>
-            {isMobile ? <MainMobileView /> : <MainPcView modal={modal} openModal={openModal} closeModal={closeModal} />}
+            <MainMobileView />
+            {/* {isMobile ? <MainMobileView /> : <MainPcView modal={modal} openModal={openModal} closeModal={closeModal} />} */}
         </>
     );
 }

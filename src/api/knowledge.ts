@@ -18,8 +18,9 @@ export interface KnowledgePage {
 export interface KnowledgeDetail {
     id: number;
     title: string;
-    content: string;
+    text: string | null;
     createdAt: string;
+    images: string[] | null;
 }
 export const fetchKnowledge = async (offset = 0): Promise<KnowledgePage> => {
     const { data } = await axiosInstance.get<RawResponse>('/knowledge', { params: { offset } });

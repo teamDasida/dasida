@@ -31,7 +31,10 @@ export default function Detail() {
             <EditorContainer>
                 <ViewerContainer>
                     <Title>{data?.title}</Title>
-                    <TuiViewer initialValue={data?.content || ''} />
+                    {data?.images?.map((v) => (
+                        <img key={v} src={v} />
+                    ))}
+                    <TuiViewer initialValue={data?.text || ''} />
                 </ViewerContainer>
             </EditorContainer>
         </Main>

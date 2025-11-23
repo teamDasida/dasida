@@ -12,7 +12,7 @@ export interface Knowledge {
     dayType: number;
     id: number;
     title: string;
-    content: string;
+    text: string;
 }
 
 export interface DataStructure {

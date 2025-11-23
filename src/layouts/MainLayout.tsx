@@ -12,6 +12,7 @@ import AddBtn from '../components/AddBtn/AddBtn';
 import BottomBtns from '../components/BottomBtns/BottomBtns';
 import { checkSession } from '../api/authApi';
 import useIsStandalone from '../hooks/useIsStandalone';
+import KnowledgeAdd2 from '../pages/KnowledgeAdd2/KnowledgeAdd2';
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 
@@ -26,6 +27,7 @@ function MainLayout() {
 
     // 최소 로딩 시간을 위한 상태 (1.5초 이상 로딩 애니메이션을 보여줌)
     const [minTimePassed, setMinTimePassed] = useState(false);
+    const [addModalView, setAddModalView] = useState(false);
     useEffect(() => {
         const timer = setTimeout(() => setMinTimePassed(true), 1500);
         return () => clearTimeout(timer);
@@ -125,12 +127,14 @@ function MainLayout() {
             //     alert('앱은 스마트폰 전용입니다. 휴대폰에서 홈 화면에 설치한 뒤 이용해 주세요!');
             // }
             if (isStandalone && isMobile) {
-                navigate('/knowledge/add');
+                setAddModalView(true);
             } else {
-                alert('앱은 스마트폰 전용입니다. 휴대폰에서 홈 화면에 설치한 뒤 이용해 주세요!');
+                setAddModalView(true);
+
+                // alert('앱은 스마트폰 전용입니다. 휴대폰에서 홈 화면에 설치한 뒤 이용해 주세요!');
             }
         } else {
-            navigate('/knowledge/add');
+            setAddModalView(true);
         }
     };
 
@@ -194,6 +198,7 @@ function MainLayout() {
 
     return (
         <>
+            {addModalView && <KnowledgeAdd2 onClose={()=>setAddModalView(false)} />}
             {showHeader && <UserHeader isMobile={isMobile} />}
             <Outlet />
             {location.pathname !== '/main' && <AddBtn onConfirm={handleAddBtn} />}
